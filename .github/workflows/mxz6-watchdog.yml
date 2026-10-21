@@ -1,0 +1,55 @@
+name: MXZ6 schedule watchdog
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Backup slots are shifted by two minutes from the primary five-minute cron.
+    # If GitHub skips the primary schedule, recover before the 20-minute warning.
+    - cron: '2-57/5 6-19 * * 1-5'
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: mxz6-watchdog
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check age of the last published calculation
+        id: freshness
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          path = Path("data/signals.json")
+          if not path.exists():
+              print("needs_run=true")
+              print("age_minutes=missing")
+          else:
+              payload = json.loads(path.read_text(encoding="utf-8"))
+              generated = datetime.fromisoformat(payload["generated_msk"])
+              age_minutes = (datetime.now(timezone.utc) - generated.astimezone(timezone.utc)).total_seconds() / 60
+              print(f"age_minutes={age_minutes:.1f}")
+              print(f"needs_run={'true' if age_minutes >= 7 else 'false'}")
+          PY
+
+      - name: Start the main calculation when stale
+        if: steps.freshness.outputs.needs_run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Last calculation age: ${{ steps.freshness.outputs.age_minutes }} minutes"
+          gh workflow run mxz6.yml --ref main
+
+      - name: Confirm that no recovery is needed
+        if: steps.freshness.outputs.needs_run != 'true'
+        run: echo "Calculation is fresh (${{ steps.freshness.outputs.age_minutes }} minutes); skipping recovery"
