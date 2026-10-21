@@ -39,7 +39,7 @@ def page(signals: dict) -> str:
     delay=esc(signals['delay'])
     return f'''<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta http-equiv="refresh" content="1800"/>
+    <meta http-equiv="refresh" content="300"/>
     <meta name="robots" content="noindex,nofollow"/>
     <title>MXZ6 — Alligator, Fractals и RSI</title>
     <style>
@@ -62,7 +62,7 @@ def page(signals: dict) -> str:
     <p>Индикаторы не являются автоматической командой открыть хедж. Сверяйте брокерскую цену, H1/H4, объёмы, волны, геополитику и риск.</p></div>
     {''.join(cards)}
     <p class="footer">Подробные данные: <a href="signals.json">signals.json</a> · <a href="report.md">report.md</a>.
-    Автообновление страницы каждые 30 минут. Планировщик GitHub Actions может задерживать запуски; время последнего отчёта указано выше.</p>
+    Автообновление страницы каждые 5 минут. Расчёт запускается каждые 5 минут; GitHub Actions иногда стартует с задержкой. Время последнего отчёта указано выше.</p>
     </body></html>'''
 
 def main():
