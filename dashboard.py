@@ -48,6 +48,11 @@ def page(signals: dict) -> str:
     h1{{font-size:clamp(22px,5vw,32px);margin:14px 0 3px}}h2{{font-size:19px;margin:0}}
     .lead,.meta,.footer{{color:#b2c2d3;font-size:13px;line-height:1.45}}
     .banner{{background:#222e40;border-left:4px solid #eda94f;border-radius:9px;padding:10px 13px;margin:15px 0}}
+    .freshness{{margin:12px 0;padding:12px 14px;border-radius:9px;border:1px solid #64748b;font-weight:600;font-size:14px}}
+    .freshness.ok{{background:#153e34;border-color:#33846d;color:#b9f1dd}}
+    .freshness.stale{{background:#611f28;border:2px solid #ff626e;color:#fff}}
+    .freshness.off{{background:#283443;border-color:#aab8c9;color:#d9e5f3}}
+    .freshness.error{{background:#611f28;border:2px solid #ff626e;color:#fff}}
     .card{{background:#1a2535;border:1px solid #35455b;border-radius:12px;padding:14px;margin:12px 0;overflow:hidden}}
     header{{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}}
     .pill{{font-size:11px;border-radius:99px;padding:5px 9px;background:#515d70}}
@@ -58,6 +63,43 @@ def page(signals: dict) -> str:
     a{{color:#9ccaff}}.warning{{font-size:13px;color:#dfbd86}}
     </style></head><body><h1>{instrument} · индикаторный монитор</h1>
     <p class="lead">Сформировано: {generated} МСК · Источник: {source}</p>
+    <div id="freshness" class="freshness" data-generated="{esc(signals['generated_msk'])}" role="status" aria-live="polite">
+      Проверяем время последнего расчёта...</div>
+    <noscript><p class="freshness off">JavaScript выключен — автоматически оценить свежесть отчёта невозможно. Проверяйте время «Сформировано» вручную.</p></noscript>
+    <script>
+    (function() {{
+      const box = document.getElementById('freshness');
+      function updateFreshness() {{
+        const generated = Date.parse(box.dataset.generated);
+        if (!Number.isFinite(generated)) {{
+          box.className = 'freshness error';
+          box.textContent = '⚠ Не удалось определить время расчёта. Не используйте данные для торгового решения.';
+          return;
+        }}
+        const age = Math.max(0, Math.floor((Date.now() - generated) / 60000));
+        const fmt = new Intl.DateTimeFormat('en-US', {{
+          timeZone:'Europe/Moscow', weekday:'short', hour:'2-digit', minute:'2-digit', hour12:false
+        }});
+        const parts = Object.fromEntries(fmt.formatToParts(new Date())
+          .filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
+        const weekday = ['Mon','Tue','Wed','Thu','Fri'].includes(parts.weekday);
+        const clock = (Number(parts.hour) % 24) * 60 + Number(parts.minute);
+        const scheduled = weekday && clock >= 9*60 && clock <= 22*60+55;
+        if (age > 20) {{
+          box.className = scheduled ? 'freshness stale' : 'freshness off';
+          box.textContent = scheduled
+            ? '⚠ ДАННЫЕ УСТАРЕЛИ: расчёт выполнен ' + age + ' мин назад. Проверьте GitHub Actions; не используйте страницу для нового входа.'
+            : 'Вне времени расчётов (будни 09:00–22:55 МСК): последнему обновлению ' + age + ' мин. Это исторические данные, не текущая котировка.';
+        }} else {{
+          box.className = 'freshness ok';
+          box.textContent = '✓ Расчёт обновлён ' + age + ' мин назад. Котировки MOEX всё равно задержаны минимум на 15 минут.';
+        }}
+      }}
+      updateFreshness();
+      setInterval(updateFreshness, 60000);
+      window.addEventListener('focus', updateFreshness);
+    }})();
+    </script>
     <div class="banner"><b>Данные задержанные, не для мгновенного входа.</b><p>{delay}</p>
     <p>Индикаторы не являются автоматической командой открыть хедж. Сверяйте брокерскую цену, H1/H4, объёмы, волны, геополитику и риск.</p></div>
     {''.join(cards)}
