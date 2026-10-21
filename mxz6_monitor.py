@@ -269,11 +269,11 @@ def snapshot(tf: str, df: pd.DataFrame, now: datetime) -> dict:
 
 
 def report_md(ticker: str, source: str, delay: str, snapshots: list[dict], now: datetime) -> str:
-    lines = [f"# {ticker}: технический монитор", "", f"Дата формирования: {now.astimezone(MSK):%Y-%m-%d %H:%M:%S} МСК", f"Источник: {source}", f"Задержка/ограничение: {delay}", "", "| ТФ | Последняя закрытая свеча (МСК) | Close | RSI14 | Jaw | Teeth | Lips | Alligator | Нижний фрактал | Пробой в последней свече |", "|---|---|---:|---:|---:|---:|---:|---|---:|---|" ]
+    lines = [f"# {ticker}: технический монитор", "", f"Дата формирования: {now.astimezone(MSK):%Y-%m-%d %H:%M:%S} МСК", f"Источник: {source}", f"Задержка/ограничение: {delay}", "", "| ТФ | Последняя закрытая свеча (МСК) | Close | RSI14 | Jaw | Teeth | Lips | Alligator | Верхний фрактал | Нижний фрактал | Пробой вверх | Пробой вниз |", "|---|---|---:|---:|---:|---:|---:|---|---:|---:|---|---|" ]
     for s in snapshots:
         st = "BEAR" if s["allig_bearish"] else "BULL" if s["allig_bullish"] else "NEUTRAL"
         fmt = lambda v: "—" if v is None else f"{v:.2f}"
-        lines.append(f"| {s['timeframe']} | {s['last_finished_candle_start_msk'][11:16]} {s['last_finished_candle_start_msk'][:10]} | {fmt(s['close'])} | {fmt(s['rsi14'])} | {fmt(s['jaw_blue'])} | {fmt(s['teeth_red'])} | {fmt(s['lips_green'])} | {st} | {fmt(s['lower_fractal_level'])} | {'ДА' if s['down_fractal_broken_this_candle'] else 'нет'} |")
+        lines.append(f"| {s['timeframe']} | {s['last_finished_candle_start_msk'][11:16]} {s['last_finished_candle_start_msk'][:10]} | {fmt(s['close'])} | {fmt(s['rsi14'])} | {fmt(s['jaw_blue'])} | {fmt(s['teeth_red'])} | {fmt(s['lips_green'])} | {st} | {fmt(s['upper_fractal_level'])} | {fmt(s['lower_fractal_level'])} | {'ДА' if s['up_fractal_broken_this_candle'] else 'нет'} | {'ДА' if s['down_fractal_broken_this_candle'] else 'нет'} |")
     lines += ["", "## Дисциплина сигнала", "", "- Нет автоматического торгового приказа: фрактал сам по себе не команда на сделку.", "- Заходной импульс Эллиотта и качественный ABC-отскок требуют отдельной проверки структуры.", "- Цена, Alligator и фракталы оцениваются только по **завершённым** свечам.", "- Не путать уровни линий Alligator *с учётом сдвига при отображении* с несмещёнными SMMA.", "- Проверить ликвидность, реальную цену в брокере, новости, MOEX FUTOI и риск/прибыль перед решением о хедже.", "- История/смещение H4 может немного отличаться от настроек терминала; требует сверки.", "", "**Действие по умолчанию: новых сделок нет, решение принимает пользователь.**"]
     return "\n".join(lines) + "\n"
 
