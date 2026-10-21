@@ -15,7 +15,7 @@ on:
     - cron: '7,37 6-19 * * 1-5'
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: mxz6-site
@@ -38,6 +38,21 @@ jobs:
         run: python mxz6_monitor.py --source moex --ticker MXZ6 --out site
       - name: Build mobile-friendly dashboard
         run: python dashboard.py --signals site/signals.json --out site/index.html
+      - name: Publish latest calculation to main
+        run: |
+          mkdir -p data
+          cp site/signals.json data/signals.json
+          cp site/report.md data/report.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/signals.json data/report.md
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "Update MXZ6 technical data [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static dashboard
