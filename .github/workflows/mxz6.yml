@@ -1,0 +1,60 @@
+name: MXZ6 delayed technical dashboard
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'mxz6_monitor.py'
+      - 'dashboard.py'
+      - 'requirements.txt'
+      - '.github/workflows/mxz6.yml'
+  schedule:
+    # GitHub Actions schedule uses UTC. Moscow is UTC+3 year-round.
+    # Mon-Fri: 09:07-22:37 Moscow, each 30 minutes; may start late.
+    - cron: '7,37 6-19 * * 1-5'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mxz6-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install requirements
+        run: python -m pip install -r requirements.txt
+      - name: Validate indicator mathematics
+        run: python tests.py
+      - name: Fetch delayed MOEX data and calculate
+        run: python mxz6_monitor.py --source moex --ticker MXZ6 --out site
+      - name: Build mobile-friendly dashboard
+        run: python dashboard.py --signals site/signals.json --out site/index.html
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static dashboard
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish dashboard
+        id: deployment
+        uses: actions/deploy-pages@v4
