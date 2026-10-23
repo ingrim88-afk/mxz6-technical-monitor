@@ -1,13 +1,13 @@
 {
   "instrument": "MXZ6",
   "source": "moex",
-  "generated_msk": "2026-10-23T18:41:03.797152+03:00",
+  "generated_msk": "2026-10-23T18:42:37.842323+03:00",
   "delay": "Бесплатный ISS: 15+ минут. Отсекаем последние 16 минут и незакрытые свечи.",
   "timeframes": [
     {
       "timeframe": "5m",
       "last_finished_candle_start_msk": "2026-10-23T18:20:00+03:00",
-      "age_minutes": 21,
+      "age_minutes": 23,
       "close": 247900.0,
       "volume": 876.0,
       "rsi14": 54.56,
@@ -24,7 +24,7 @@
     {
       "timeframe": "H1",
       "last_finished_candle_start_msk": "2026-10-23T17:00:00+03:00",
-      "age_minutes": 101,
+      "age_minutes": 103,
       "close": 248425.0,
       "volume": 33023.0,
       "rsi14": 67.77,
@@ -41,7 +41,7 @@
     {
       "timeframe": "H4",
       "last_finished_candle_start_msk": "2026-10-23T13:00:00+03:00",
-      "age_minutes": 341,
+      "age_minutes": 343,
       "close": 247300.0,
       "volume": 213646.0,
       "rsi14": 56.11,
