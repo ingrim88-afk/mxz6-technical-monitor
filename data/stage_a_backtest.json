@@ -13,8 +13,8 @@
     "armed_bars": 6
   },
   "start_msk": "2026-11-15T09:55:00+03:00",
-  "end_msk": "2026-11-19T19:45:00+03:00",
-  "bars": 870,
+  "end_msk": "2026-11-19T20:10:00+03:00",
+  "bars": 875,
   "events": 88,
   "confirmed": 12,
   "closed_virtual_trades": 11,
