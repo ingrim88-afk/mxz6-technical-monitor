@@ -1,7 +1,7 @@
 {
   "instrument": "MXZ6",
   "source": "moex",
-  "generated_msk": "2026-11-19T19:56:34.284256+03:00",
+  "generated_msk": "2026-11-19T19:57:28.505436+03:00",
   "delay": "Бесплатный ISS: 15+ минут. Отсекаем последние 16 минут и незакрытые свечи.",
   "timeframes": [
     {
@@ -79,7 +79,7 @@
     "health": {
       "status": "DELAYED",
       "last_5m_end_msk": "2026-11-19T19:40:00+03:00",
-      "candle_end_age_minutes": 16.57,
+      "candle_end_age_minutes": 17.48,
       "stale_after_minutes": 31,
       "expected_iss_delay_minutes": 16,
       "new_signals_allowed": true,
@@ -106,5 +106,5 @@
     ],
     "execution_note": "Только виртуальная модель по задержанным закрытым свечам. Фактических заявок и изменений портфеля нет; риск без комиссий и проскальзывания."
   },
-  "code_sha": "afacdb4619300bb45933a5da1ec3578e4ba84161"
+  "code_sha": "cba50b4c9cccfc3250405cf2d1adf6fde81e9523"
 }
