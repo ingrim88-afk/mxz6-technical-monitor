@@ -8,6 +8,9 @@ on:
       - 'mxz6_monitor.py'
       - 'dashboard.py'
       - 'requirements.txt'
+      - 'stage_a.py'
+      - 'tests.py'
+      - 'test_stage_a.py'
       - '.github/workflows/mxz6.yml'
   schedule:
     # GitHub Actions schedule uses UTC. Moscow is UTC+3 year-round.
@@ -24,8 +27,14 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Record executed source commit
+        run: echo "MXZ6_CODE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -34,10 +43,24 @@ jobs:
           cache-dependency-path: requirements.txt
       - name: Install requirements
         run: python -m pip install -r requirements.txt
-      - name: Validate indicator mathematics
-        run: python tests.py
+      - name: Validate indicators and Stage A shadow behavior
+        run: python -m unittest -v tests test_stage_a
       - name: Fetch delayed MOEX data and calculate
-        run: python mxz6_monitor.py --source moex --ticker MXZ6 --out site
+        run: python mxz6_monitor.py --source moex --ticker MXZ6 --out site --state-dir data
+      - name: Verify shadow safety contract and journal
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from stage_a import validate_shadow, load_journal
+          signals = json.loads(Path("site/signals.json").read_text())
+          validate_shadow(signals)
+          events = load_journal(Path("site/transitions.jsonl"))
+          assert signals["stage_a"]["transition_count"] == len(events)
+          assert all(e["real_order"] is False and e["mode"] == "shadow" for e in events)
+          assert signals["code_sha"] != "local"
+          print("SHADOW verified; journal events:", len(events), "source:", signals["code_sha"])
+          PY
       - name: Build mobile-friendly dashboard
         run: python dashboard.py --signals site/signals.json --out site/index.html
       - name: Publish latest calculation to main
@@ -45,9 +68,12 @@ jobs:
           mkdir -p data
           cp site/signals.json data/signals.json
           cp site/report.md data/report.md
+          cp site/transitions.jsonl data/transitions.jsonl
+          cp site/stage_a_state.json data/stage_a_state.json
+          cp site/stage_a_backtest.json data/stage_a_backtest.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/signals.json data/report.md
+          git add data/signals.json data/report.md data/transitions.jsonl data/stage_a_state.json data/stage_a_backtest.json
           if git diff --cached --quiet; then
             echo "No data changes to commit"
           else

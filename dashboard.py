@@ -37,6 +37,14 @@ def page(signals: dict) -> str:
     generated=esc(signals['generated_msk'].replace('T',' ')[:19])
     source=esc(signals['source'])
     delay=esc(signals['delay'])
+    stage = signals.get('stage_a', {})
+    health = stage.get('health', {})
+    position = stage.get('virtual_position')
+    risk = ''
+    if position:
+        risk = '<table>' + ''.join('<tr><td>'+label+'</td><td>'+esc(num(position[key]))+'</td></tr>' for label,key in [('Виртуальный вход','entry'),('Стоп','stop'),('Риск ₽ · 1 MIX','risk_rub_1_contract'),('Цель 2R','target')]) + '</table>'
+    event_rows = ''.join('<tr><td>'+esc(e['bar_begin_msk'].replace('T',' ')[:16])+'</td><td>'+esc(e['to'])+'</td><td>'+esc(e['reason'])+'</td></tr>' for e in reversed(stage.get('recent_transitions', [])))
+    stage_card = f'<article class="card"><h2>Этап A · SHADOW · {esc(stage.get("state", "UNAVAILABLE"))}</h2><p>WATCH → ARMED → CONFIRMED · COVER / TAKE PROFIT</p><p class="warning">{esc(stage.get("execution_note", "Этап A недоступен"))}</p><p>Фильтр входа: {esc(stage.get("entry_gate", "—"))} · Переходов: {esc(stage.get("transition_count", 0))}</p>{risk}<div style="overflow-x:auto"><table>{event_rows}</table></div><p><a href="transitions.jsonl">Журнал переходов</a> · <a href="stage_a_backtest.json">Walk-forward: фиксированные правила</a></p></article>'
     return f'''<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="refresh" content="300"/>
@@ -65,6 +73,7 @@ def page(signals: dict) -> str:
     <p class="lead">Сформировано: {generated} МСК · Источник: {source}</p>
     <div id="freshness" class="freshness" data-generated="{esc(signals['generated_msk'])}" role="status" aria-live="polite">
       Проверяем время последнего расчёта...</div>
+    <div id="source-health" class="freshness" data-candle-end="{esc(health.get('last_5m_end_msk', ''))}" data-limit="{esc(health.get('stale_after_minutes',31))}">Источник MOEX ISS: {esc(health.get('status','UNKNOWN'))}</div>
     <noscript><p class="freshness off">JavaScript выключен — автоматически оценить свежесть отчёта невозможно. Проверяйте время «Сформировано» вручную.</p></noscript>
     <script>
     (function() {{
@@ -76,6 +85,13 @@ def page(signals: dict) -> str:
           box.textContent = '⚠ Не удалось определить время расчёта. Не используйте данные для торгового решения.';
           return;
         }}
+        const sourceBox = document.getElementById('source-health');
+        const candleAge = (Date.now() - Date.parse(sourceBox.dataset.candleEnd)) / 60000;
+        const sourceStale = !Number.isFinite(candleAge) || candleAge > Number(sourceBox.dataset.limit) || candleAge < 0;
+        sourceBox.className = sourceStale ? 'freshness stale' : 'freshness off';
+        sourceBox.textContent = sourceStale
+          ? '⚠ Свечи источника устарели или недоступны. Новые сигналы не использовать. Возраст закрытия 5m: ' + (Number.isFinite(candleAge) ? Math.floor(candleAge) + ' мин.' : 'неизвестен')
+          : 'MOEX ISS: задержанные свечи. Последняя 5m закрылась ' + Math.floor(candleAge) + ' мин назад; это не текущая цена.';
         const age = Math.max(0, Math.floor((Date.now() - generated) / 60000));
         const fmt = new Intl.DateTimeFormat('en-US', {{
           timeZone:'Europe/Moscow', weekday:'short', hour:'2-digit', minute:'2-digit', hour12:false
@@ -85,6 +101,7 @@ def page(signals: dict) -> str:
         const weekday = ['Mon','Tue','Wed','Thu','Fri'].includes(parts.weekday);
         const clock = (Number(parts.hour) % 24) * 60 + Number(parts.minute);
         const scheduled = weekday && clock >= 9*60 && clock <= 22*60+55;
+        if (!scheduled && sourceStale) {{ sourceBox.className = 'freshness off'; sourceBox.textContent = 'Вне расписания: исторические свечи источника, новых сигналов нет.'; }}
         if (age > 20) {{
           box.className = scheduled ? 'freshness stale' : 'freshness off';
           box.textContent = scheduled
@@ -102,6 +119,8 @@ def page(signals: dict) -> str:
     </script>
     <div class="banner"><b>Данные задержанные, не для мгновенного входа.</b><p>{delay}</p>
     <p>Индикаторы не являются автоматической командой открыть хедж. Сверяйте брокерскую цену, H1/H4, объёмы, волны, геополитику и риск.</p></div>
+    {stage_card}
+    <p class="meta">Версия кода: {esc(signals.get('code_sha','unknown'))}</p>
     {''.join(cards)}
     <p class="footer">Подробные данные: <a href="signals.json">signals.json</a> · <a href="report.md">report.md</a>.
     Автообновление страницы каждые 5 минут. Расчёт запускается каждые 5 минут; GitHub Actions иногда стартует с задержкой. Время последнего отчёта указано выше.</p>

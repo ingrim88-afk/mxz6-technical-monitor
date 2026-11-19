@@ -18,6 +18,8 @@ import numpy as np
 import pandas as pd
 import requests
 
+from stage_a import load_journal, load_state, run_engine, persist, validate_shadow, backtest
+
 MSK = ZoneInfo("Europe/Moscow")
 UTC = timezone.utc
 MOEX_URL = (
@@ -329,6 +331,7 @@ def main(argv=None) -> int:
     p.add_argument("--csv-dir",type=Path,default=Path("."))
     p.add_argument("--out",type=Path,default=Path("report"))
     p.add_argument("--h4-anchor",choices=[0,1,2,3],type=int,default=1,help="MOEX H4: Moscow hours modulo 4, default 1 (09/13/17/21)")
+    p.add_argument("--state-dir",type=Path,default=Path("data"),help="Persisted Stage A shadow checkpoint and journal")
     args=p.parse_args(argv)
     args.out.mkdir(parents=True,exist_ok=True)
     now=datetime.now(MSK)
@@ -343,15 +346,26 @@ def main(argv=None) -> int:
             dataset=load_csv_dir(args.csv_dir)
             delay="CSV из локального файла; актуальность зависит от времени экспорта."
         snapshots=[]
+        analyzed={}
         for tf in INTERVALS:
             df=analyze(dataset[tf])
+            analyzed[tf]=df
             if tf == "5m" and (now - df.index[-1].to_pydatetime() > timedelta(hours=12)):
                 print("ВНИМАНИЕ: Последняя 5m свеча старше 12 часов. Данные устарели!",file=sys.stderr)
             snapshots.append(snapshot(tf,df,now))
             plot_chart(df,tf,args.out/f"{args.ticker}_{tf}.png",args.ticker,args.source)
         obj={"instrument":args.ticker,"source":args.source,"generated_msk":now.isoformat(),"delay":delay,"timeframes":snapshots}
+        events=load_journal(args.state_dir/"transitions.jsonl")
+        state=load_state(args.state_dir/"stage_a_state.json",events)
+        stage=run_engine(analyzed,now,state,events,source=args.source)
+        obj["stage_a"]=stage
+        obj["code_sha"]=os.getenv("MXZ6_CODE_SHA",os.getenv("GITHUB_SHA","local"))
+        validate_shadow(obj)
+        persist(args.out,state,events)
+        (args.out/"stage_a_backtest.json").write_text(json.dumps(backtest(analyzed,now),ensure_ascii=False,indent=2,allow_nan=False),encoding="utf-8")
         (args.out/"signals.json").write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding="utf-8")
         text=report_md(args.ticker,args.source,delay,snapshots,now)
+        text += "\n## Этап A · SHADOW\n\n" + f"Состояние: **{stage['state']}** · Источник: {stage['health']['status']} · Переходов: {len(events)}\n\n" + stage["execution_note"] + "\n"
         (args.out/"report.md").write_text(text,encoding="utf-8")
         print(text)
         print(f"Готово. Файлы в {args.out.resolve()}")
