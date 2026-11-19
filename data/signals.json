@@ -1,22 +1,22 @@
 {
   "instrument": "MXZ6",
   "source": "moex",
-  "generated_msk": "2026-11-19T20:35:22.867094+03:00",
+  "generated_msk": "2026-11-19T20:50:43.233262+03:00",
   "delay": "Бесплатный ISS: 15+ минут. Отсекаем последние 16 минут и незакрытые свечи.",
   "timeframes": [
     {
       "timeframe": "5m",
-      "last_finished_candle_start_msk": "2026-11-19T20:10:00+03:00",
-      "age_minutes": 25,
+      "last_finished_candle_start_msk": "2026-11-19T20:25:00+03:00",
+      "age_minutes": 26,
       "close": 239975.0,
-      "volume": 692.0,
-      "rsi14": 52.92,
-      "jaw_blue": 239842.62,
-      "teeth_red": 239857.11,
-      "lips_green": 239898.45,
+      "volume": 1170.0,
+      "rsi14": 53.02,
+      "jaw_blue": 239877.21,
+      "teeth_red": 239854.23,
+      "lips_green": 239831.51,
       "allig_bearish": false,
-      "allig_bullish": true,
-      "upper_fractal_level": 240300.0,
+      "allig_bullish": false,
+      "upper_fractal_level": 240000.0,
       "lower_fractal_level": 239625.0,
       "down_fractal_broken_this_candle": false,
       "up_fractal_broken_this_candle": false
@@ -24,7 +24,7 @@
     {
       "timeframe": "H1",
       "last_finished_candle_start_msk": "2026-11-19T19:00:00+03:00",
-      "age_minutes": 95,
+      "age_minutes": 111,
       "close": 239850.0,
       "volume": 9564.0,
       "rsi14": 24.06,
@@ -41,7 +41,7 @@
     {
       "timeframe": "H4",
       "last_finished_candle_start_msk": "2026-11-19T13:00:00+03:00",
-      "age_minutes": 455,
+      "age_minutes": 471,
       "close": 239350.0,
       "volume": 278846.0,
       "rsi14": 26.06,
@@ -78,8 +78,8 @@
     },
     "health": {
       "status": "DELAYED",
-      "last_5m_end_msk": "2026-11-19T20:15:00+03:00",
-      "candle_end_age_minutes": 20.38,
+      "last_5m_end_msk": "2026-11-19T20:30:00+03:00",
+      "candle_end_age_minutes": 20.72,
       "stale_after_minutes": 31,
       "expected_iss_delay_minutes": 16,
       "new_signals_allowed": true,
@@ -89,10 +89,10 @@
       "bar": "2026-11-19T20:00:00+03:00",
       "trigger": 239600.0,
       "structural_high": 240050.0,
-      "waited": 2
+      "waited": 5
     },
     "virtual_position": null,
-    "last_processed_bar": "2026-11-19T20:10:00+03:00",
+    "last_processed_bar": "2026-11-19T20:25:00+03:00",
     "transition_count": 2,
     "recent_transitions": [
       {
@@ -124,5 +124,5 @@
     ],
     "execution_note": "Только виртуальная модель по задержанным закрытым свечам. Фактических заявок и изменений портфеля нет; риск без комиссий и проскальзывания."
   },
-  "code_sha": "8b30f5b2399afc48890252e77065e4ddaa811923"
+  "code_sha": "9783a466a7f5a48daec4f9c50139cf3adb90a1fd"
 }
