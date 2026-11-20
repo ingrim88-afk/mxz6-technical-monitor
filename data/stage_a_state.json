@@ -1,12 +1,12 @@
 {
   "version": "stage-a-1",
   "state": "ARMED",
-  "last_bar": "2026-11-20T21:00:00+03:00",
+  "last_bar": "2026-11-20T21:05:00+03:00",
   "armed": {
     "bar": "2026-11-20T20:50:00+03:00",
     "trigger": 233800.0,
     "structural_high": 234100.0,
-    "waited": 2
+    "waited": 3
   },
   "virtual_position": null
 }
