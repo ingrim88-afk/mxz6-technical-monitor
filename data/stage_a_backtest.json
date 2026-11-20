@@ -12,13 +12,13 @@
     "virtual_contracts": 1,
     "armed_bars": 6
   },
-  "start_msk": "2026-11-15T15:30:00+03:00",
-  "end_msk": "2026-11-20T15:10:00+03:00",
-  "bars": 952,
-  "events": 96,
-  "confirmed": 13,
-  "closed_virtual_trades": 13,
-  "virtual_pnl_rub_before_costs": 5925,
+  "start_msk": "2026-11-15T16:50:00+03:00",
+  "end_msk": "2026-11-20T16:30:00+03:00",
+  "bars": 953,
+  "events": 99,
+  "confirmed": 14,
+  "closed_virtual_trades": 14,
+  "virtual_pnl_rub_before_costs": 7725,
   "open_virtual_position": null,
   "limitations": "Пятидневное окно 5m с прогревом H1; без подгонки по датам. Вход по закрытию подтверждения, затем стоп/2R. При двойном касании стоп первый, гэп против шорта по open. Комиссии, ликвидность и проскальзывание не моделируются. Не доказательство доходности."
 }
