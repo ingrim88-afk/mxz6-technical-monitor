@@ -1,7 +1,11 @@
 {
-  "status": "DELAYED",
-  "attempted_msk": "2026-11-20T18:10:31.686417+03:00",
+  "status": "STALE",
+  "attempted_msk": "2026-11-20T18:19:01.533011+03:00",
   "last_successful_calculation_msk": "2026-11-20T18:10:24.623467+03:00",
-  "attempts": 1,
-  "failure": null
+  "attempts": 3,
+  "failure": {
+    "phase": "fetch",
+    "error": "HTTPSConnectionPool(host='iss.moex.com', port=443): Max retries exceeded with url: /iss/engines/futures/markets/forts/boards/rfud/securities/MXZ6/candles.json?from=2026-11-15+18%3A17%3A53&till=2026-11-20+18%3A01%3A53&interval=1&start=0&iss.meta=off (Caused by ConnectTimeoutError(<HTTPSConnection(host='iss.moex.com', port=443) at 0x7669f1693140>, 'Connection to iss.moex.com timed out. (connect timeout=16)'))",
+    "attempted_msk": "2026-11-20T18:19:01.531558+03:00"
+  }
 }
