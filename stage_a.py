@@ -107,7 +107,7 @@ def transition(state, to, bar_time, observed, reason, events, details=None):
         events.append(event)
 
 
-def advance(state, bar, stamp, h1, now, events, allow_entry):
+def advance(state, bar, stamp, h1, now, events, allow_entry, entry_block_reason="ENTRY_DISABLED"):
     """At most one transition per closed 5m bar. Confirmation cannot share ARMED bar."""
     stamp = pd.Timestamp(stamp)
     iso = stamp.isoformat()
@@ -137,14 +137,37 @@ def advance(state, bar, stamp, h1, now, events, allow_entry):
             if allow_entry and setup and no_chase:
                 state["armed"] = {"bar": iso, "trigger": float(bar.low),
                                   "structural_high": float(bar.structural_high), "waited": 0}
-                transition(state, "ARMED", iso, now, "H1_CONTEXT_5M_WEAKNESS", events)
+                transition(state, "ARMED", iso, now, "H1_CONTEXT_5M_WEAKNESS", events,
+                           {"trigger":float(bar.low),"structural_high":float(bar.structural_high),
+                            "rsi14":float(bar.rsi14),"lips_distance_atr":round(abs(float(bar.close-bar.lips))/float(bar.atr14),4)})
         elif state["state"] == "ARMED":
             armed = state["armed"]
             armed["waited"] += 1
             h1_ok = h1 is not None and float(h1.close) < float(h1.teeth) and not bool(h1.bullish)
-            if not allow_entry or not no_chase or not h1_ok or armed["waited"] > RULES["armed_bars"] or float(bar.close) > armed["structural_high"]:
+            reason = None
+            if not allow_entry:
+                reason = entry_block_reason
+            elif gate == "WARMUP":
+                reason = "INDICATORS_UNAVAILABLE"
+            elif float(bar.rsi14) <= RULES["min_rsi"]:
+                reason = "NO_CHASE_RSI"
+            elif not no_chase:
+                reason = "NO_CHASE_LIPS_DISTANCE"
+            elif not h1_ok:
+                reason = "H1_CONTEXT_INVALIDATED"
+            elif armed["waited"] > RULES["armed_bars"]:
+                reason = "ARMED_EXPIRED_NO_CONFIRMATION"
+            elif float(bar.close) > armed["structural_high"]:
+                reason = "STRUCTURE_HIGH_BROKEN"
+            if reason:
+                details = {"armed_bar":armed["bar"],"trigger":armed["trigger"],
+                           "structural_high":armed["structural_high"],"waited":armed["waited"],
+                           "close":float(bar.close),"rsi14":float(bar.rsi14),
+                           "break_below_trigger":bool(float(bar.close)<armed["trigger"]),
+                           "below_lips":bool(float(bar.close)<float(bar.lips)),
+                           "lips_distance_atr":round(abs(float(bar.close-bar.lips))/float(bar.atr14),4)}
                 state["armed"] = None
-                transition(state, "WATCH", iso, now, "STALE_OR_INVALIDATED" if not allow_entry else gate if not no_chase else "SETUP_EXPIRED_OR_INVALIDATED", events)
+                transition(state, "WATCH", iso, now, reason, events, details)
             elif iso > armed["bar"] and float(bar.close) < armed["trigger"] and float(bar.close) < float(bar.lips):
                 tick = RULES["tick_size"]
                 entry = math.floor(float(bar.close) / tick) * tick
@@ -191,13 +214,30 @@ def run_engine(dataset, now, state, events, *, source="moex", backtest=False):
             known_h1 = hours.loc[hours.index + pd.Timedelta(hours=1) <= closed]
             h1 = known_h1.iloc[-1] if len(known_h1) else None
             h1_fresh = len(known_h1) and closed - (known_h1.index[-1] + pd.Timedelta(hours=1)) < pd.Timedelta(hours=2)
-            age = (pd.Timestamp(now) - closed).total_seconds() / 60
-            allowed = bool(h1_fresh) and (backtest or (health["new_signals_allowed"] and 0 <= age <= MAX_CANDLE_AGE_MIN))
-            advance(state, bar, stamp, h1, now, events, allowed)
-    _, no_chase, gate = conditions(bars.iloc[-1], hours.iloc[-1] if len(hours) else None)
+            # SHADOW replay is causal at the candle's close. Delayed execution
+            # must not erase a valid ARMED or skip an intermediate confirmation.
+            # Current source health gates display/actionability, not historical state.
+            allowed = bool(h1_fresh) and (backtest or in_schedule(closed))
+            blocked = "H1_CONTEXT_STALE" if not h1_fresh else "OUTSIDE_MONITOR_SESSION"
+            advance(state, bar, stamp, h1, now, events, allowed, blocked)
+    latest_end = bars.index[-1] + pd.Timedelta(minutes=5)
+    known_h1 = hours.loc[hours.index + pd.Timedelta(hours=1) <= latest_end]
+    last_h1 = known_h1.iloc[-1] if len(known_h1) else None
+    setup, no_chase, gate = conditions(bars.iloc[-1], last_h1)
+    h1_fresh = len(known_h1) and latest_end-(known_h1.index[-1]+pd.Timedelta(hours=1)) < pd.Timedelta(hours=2)
+    if not health["new_signals_allowed"]:
+        gate = "STALE_SOURCE" if health["status"] == "STALE" else "OUTSIDE_MONITOR_SESSION"
+    elif not h1_fresh:
+        gate = "H1_CONTEXT_STALE"
+    elif gate != "WARMUP" and not no_chase:
+        gate = "NO_CHASE_RSI" if float(bars.iloc[-1].rsi14) <= RULES["min_rsi"] else "NO_CHASE_LIPS_DISTANCE"
+    elif gate != "WARMUP" and not setup:
+        gate = "WAITING_FOR_H1_AND_5M_SETUP"
     return {"version": VERSION, "mode": "shadow", "state": state["state"],
             "real_orders_enabled": False, "portfolio_mutations_enabled": False,
-            "new_signals_allowed": health["new_signals_allowed"],
+            "processing_policy": "causal_shadow_replay_v2",
+            "replay_note": "История обрабатывается по порядку закрытия. Поздно обнаруженные события виртуальны и не являются текущей командой на вход.",
+            "new_signals_allowed": bool(health["new_signals_allowed"] and h1_fresh),
             "no_chase_passed": no_chase, "entry_gate": gate,
             "rules": RULES, "health": health, "armed": state["armed"],
             "virtual_position": state["virtual_position"],

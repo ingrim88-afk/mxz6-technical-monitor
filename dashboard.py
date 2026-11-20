@@ -30,16 +30,23 @@ def page(signals: dict) -> str:
             ('Нижний фрактал','lower_fractal_level'),('Верхний фрактал','upper_fractal_level'),
         ])
         breakout='Да — пробой на последней закрытой свече' if item['down_fractal_broken_this_candle'] else 'Нет'
+        chart = (f'<a href="{key}"><img loading="lazy" src="{key}" alt="График {instrument} {esc(tf)}"/></a>'
+                 if not signals.get('runtime',{}).get('failure') else '<p class="warning">График не обновлён из-за ошибки расчёта.</p>')
         cards.append(f'''<article class="card"><header><h2>{esc(LABELS.get(tf,tf))}</h2><span class="pill {color}">{state}</span></header>
         <p class="meta">Начало последней завершённой свечи: {candle} МСК</p>
         <table>{rows}</table><p class="warning">Пробой нижнего фрактала: <b>{esc(breakout)}</b></p>
-        <a href="{key}"><img loading="lazy" src="{key}" alt="График {instrument} {esc(tf)}"/></a></article>''')
+        {chart}</article>''')
     generated=esc(signals['generated_msk'].replace('T',' ')[:19])
     source=esc(signals['source'])
     delay=esc(signals['delay'])
     stage = signals.get('stage_a', {})
     health = stage.get('health', {})
     position = stage.get('virtual_position')
+    runtime = signals.get('runtime', {})
+    runtime_failed = runtime.get('status') == 'STALE' and runtime.get('failure')
+    failure_banner = ''
+    if runtime_failed:
+        failure_banner = '<div class="freshness stale"><b>STALE · ошибка обновления</b><p>Последний успешный расчёт: '+generated+' МСК</p><p>Последняя попытка: '+esc(runtime.get('attempted_msk'))+'</p><p>'+esc(runtime['failure'].get('phase'))+': '+esc(runtime['failure'].get('error'))+'</p></div>'
     risk = ''
     if position:
         risk = '<table>' + ''.join('<tr><td>'+label+'</td><td>'+esc(num(position[key]))+'</td></tr>' for label,key in [('Виртуальный вход','entry'),('Стоп','stop'),('Риск ₽ · 1 MIX','risk_rub_1_contract'),('Цель 2R','target')]) + '</table>'
@@ -71,7 +78,8 @@ def page(signals: dict) -> str:
     a{{color:#9ccaff}}.warning{{font-size:13px;color:#dfbd86}}
     </style></head><body><h1>{instrument} · индикаторный монитор</h1>
     <p class="lead">Сформировано: {generated} МСК · Источник: {source}</p>
-    <div id="freshness" class="freshness" data-generated="{esc(signals['generated_msk'])}" role="status" aria-live="polite">
+    {failure_banner}
+    <div id="freshness" class="freshness" data-failed="{'true' if runtime_failed else 'false'}" data-generated="{esc(signals['generated_msk'])}" role="status" aria-live="polite">
       Проверяем время последнего расчёта...</div>
     <div id="source-health" class="freshness" data-candle-end="{esc(health.get('last_5m_end_msk', ''))}" data-limit="{esc(health.get('stale_after_minutes',31))}">Источник MOEX ISS: {esc(health.get('status','UNKNOWN'))}</div>
     <noscript><p class="freshness off">JavaScript выключен — автоматически оценить свежесть отчёта невозможно. Проверяйте время «Сформировано» вручную.</p></noscript>
@@ -90,7 +98,7 @@ def page(signals: dict) -> str:
         const sourceStale = !Number.isFinite(candleAge) || candleAge > Number(sourceBox.dataset.limit) || candleAge < 0;
         sourceBox.className = sourceStale ? 'freshness stale' : 'freshness off';
         sourceBox.textContent = sourceStale
-          ? '⚠ Свечи источника устарели или недоступны. Новые сигналы не использовать. Возраст закрытия 5m: ' + (Number.isFinite(candleAge) ? Math.floor(candleAge) + ' мин.' : 'неизвестен')
+          ? 'STALE · Свечи источника устарели или недоступны. Новые сигналы не использовать. Возраст закрытия 5m: ' + (Number.isFinite(candleAge) ? Math.floor(candleAge) + ' мин.' : 'неизвестен')
           : 'MOEX ISS: задержанные свечи. Последняя 5m закрылась ' + Math.floor(candleAge) + ' мин назад; это не текущая цена.';
         const age = Math.max(0, Math.floor((Date.now() - generated) / 60000));
         const fmt = new Intl.DateTimeFormat('en-US', {{
@@ -102,10 +110,13 @@ def page(signals: dict) -> str:
         const clock = (Number(parts.hour) % 24) * 60 + Number(parts.minute);
         const scheduled = weekday && clock >= 9*60 && clock <= 22*60+55;
         if (!scheduled && sourceStale) {{ sourceBox.className = 'freshness off'; sourceBox.textContent = 'Вне расписания: исторические свечи источника, новых сигналов нет.'; }}
-        if (age > 20) {{
+        if (box.dataset.failed === 'true') {{
+          box.className = 'freshness stale';
+          box.textContent = 'STALE · обновление завершилось ошибкой. Последний успешный расчёт: {generated} МСК. Новых входов нет.';
+        }} else if (age > 20) {{
           box.className = scheduled ? 'freshness stale' : 'freshness off';
           box.textContent = scheduled
-            ? '⚠ ДАННЫЕ УСТАРЕЛИ: расчёт выполнен ' + age + ' мин назад. Проверьте GitHub Actions; не используйте страницу для нового входа.'
+            ? 'STALE · ДАННЫЕ УСТАРЕЛИ: последний успешный расчёт {generated} МСК (' + age + ' мин назад). Не используйте страницу для нового входа.'
             : 'Вне времени расчётов (будни 09:00–22:55 МСК): последнему обновлению ' + age + ' мин. Это исторические данные, не текущая котировка.';
         }} else {{
           box.className = 'freshness ok';
@@ -132,6 +143,9 @@ def main():
     parser.add_argument('--out',type=Path,default=Path('site/index.html'))
     args=parser.parse_args()
     data=json.loads(args.signals.read_text(encoding='utf-8'))
+    runtime_path = args.signals.parent/'runtime_status.json'
+    if runtime_path.exists():
+        data['runtime'] = json.loads(runtime_path.read_text(encoding='utf-8'))
     args.out.parent.mkdir(parents=True,exist_ok=True)
     args.out.write_text(page(data),encoding='utf-8')
     print('Dashboard:',args.out)
