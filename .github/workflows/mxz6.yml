@@ -11,11 +11,13 @@ on:
       - 'stage_a.py'
       - 'tests.py'
       - 'test_stage_a.py'
+      - 'operations.py'
+      - 'test_operations.py'
       - '.github/workflows/mxz6.yml'
   schedule:
     # GitHub Actions schedule uses UTC. Moscow is UTC+3 year-round.
     # Mon-Fri: every 5 minutes, 09:00-22:55 Moscow; GitHub may start late.
-    - cron: '*/5 6-19 * * 1-5'
+    - cron: '1-56/5 6-19 * * 1-5'
 
 permissions:
   contents: write
@@ -28,6 +30,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      artifact_ready: ${{ steps.upload.outcome }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -44,9 +48,11 @@ jobs:
       - name: Install requirements
         run: python -m pip install -r requirements.txt
       - name: Validate indicators and Stage A shadow behavior
-        run: python -m unittest -v tests test_stage_a
+        run: python -m unittest -v tests test_stage_a test_operations
       - name: Fetch delayed MOEX data and calculate
-        run: python mxz6_monitor.py --source moex --ticker MXZ6 --out site --state-dir data
+        id: calculation
+        continue-on-error: true
+        run: python operations.py
       - name: Verify shadow safety contract and journal
         run: |
           python - <<'PY'
@@ -70,10 +76,10 @@ jobs:
           cp site/report.md data/report.md
           cp site/transitions.jsonl data/transitions.jsonl
           cp site/stage_a_state.json data/stage_a_state.json
-          cp site/stage_a_backtest.json data/stage_a_backtest.json
+          cp site/runtime_status.json data/runtime_status.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/signals.json data/report.md data/transitions.jsonl data/stage_a_state.json data/stage_a_backtest.json
+          git add data/signals.json data/report.md data/transitions.jsonl data/stage_a_state.json data/runtime_status.json
           if git diff --cached --quiet; then
             echo "No data changes to commit"
           else
@@ -84,12 +90,17 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static dashboard
+        id: upload
         uses: actions/upload-pages-artifact@v4
         with:
           path: site
+      - name: Report failed or stale calculation after publishing its status
+        if: steps.calculation.outcome == 'failure'
+        run: exit 1
 
   deploy:
     needs: build
+    if: ${{ always() && needs.build.outputs.artifact_ready == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       pages: write
