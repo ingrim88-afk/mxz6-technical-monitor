@@ -64,9 +64,9 @@
     "portfolio_mutations_enabled": false,
     "processing_policy": "causal_shadow_replay_v2",
     "replay_note": "История обрабатывается по порядку закрытия. Поздно обнаруженные события виртуальны и не являются текущей командой на вход.",
-    "new_signals_allowed": true,
+    "new_signals_allowed": false,
     "no_chase_passed": false,
-    "entry_gate": "NO_CHASE_LIPS_DISTANCE",
+    "entry_gate": "CALCULATION_FAILED",
     "rules": {
       "atr_period": 14,
       "min_rsi": 30,
@@ -79,12 +79,12 @@
       "armed_bars": 6
     },
     "health": {
-      "status": "DELAYED",
+      "status": "STALE",
       "last_5m_end_msk": "2026-11-20T20:00:00+03:00",
       "candle_end_age_minutes": 20.38,
       "stale_after_minutes": 31,
       "expected_iss_delay_minutes": 16,
-      "new_signals_allowed": true,
+      "new_signals_allowed": false,
       "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
     },
     "armed": null,
@@ -242,5 +242,16 @@
     ],
     "execution_note": "Только виртуальная модель по задержанным закрытым свечам. Фактических заявок и изменений портфеля нет; риск без комиссий и проскальзывания."
   },
-  "code_sha": "a23273ddb4bd8729941e601433e8635f24e75b9f"
+  "code_sha": "a23273ddb4bd8729941e601433e8635f24e75b9f",
+  "runtime": {
+    "status": "STALE",
+    "attempted_msk": "2026-11-20T20:29:02.383772+03:00",
+    "last_successful_calculation_msk": "2026-11-20T20:20:23.074294+03:00",
+    "attempts": 3,
+    "failure": {
+      "phase": "fetch",
+      "error": "HTTPSConnectionPool(host='iss.moex.com', port=443): Max retries exceeded with url: /iss/engines/futures/markets/forts/boards/rfud/securities/MXZ6/candles.json?from=2026-11-15+20%3A27%3A54&till=2026-11-20+20%3A11%3A54&interval=1&start=0&iss.meta=off (Caused by ConnectTimeoutError(<HTTPSConnection(host='iss.moex.com', port=443) at 0x728da9d2b470>, 'Connection to iss.moex.com timed out. (connect timeout=16)'))",
+      "attempted_msk": "2026-11-20T20:29:02.382974+03:00"
+    }
+  }
 }
