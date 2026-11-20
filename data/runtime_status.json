@@ -1,7 +1,7 @@
 {
   "status": "DELAYED",
-  "attempted_msk": "2026-11-20T19:05:33.973421+03:00",
-  "last_successful_calculation_msk": "2026-11-20T19:05:27.613136+03:00",
+  "attempted_msk": "2026-11-20T19:10:35.083450+03:00",
+  "last_successful_calculation_msk": "2026-11-20T19:10:27.750076+03:00",
   "attempts": 1,
   "failure": null
 }
