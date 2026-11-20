@@ -1,19 +1,19 @@
 {
   "instrument": "MXZ6",
   "source": "moex",
-  "generated_msk": "2026-11-20T17:25:25.327925+03:00",
+  "generated_msk": "2026-11-20T17:35:22.603117+03:00",
   "delay": "Бесплатный ISS: 15+ минут. Отсекаем последние 16 минут и незакрытые свечи.",
   "timeframes": [
     {
       "timeframe": "5m",
-      "last_finished_candle_start_msk": "2026-11-20T17:00:00+03:00",
+      "last_finished_candle_start_msk": "2026-11-20T17:10:00+03:00",
       "age_minutes": 25,
-      "close": 233075.0,
-      "volume": 4663.0,
-      "rsi14": 43.22,
-      "jaw_blue": 234041.54,
-      "teeth_red": 233432.87,
-      "lips_green": 232896.93,
+      "close": 233100.0,
+      "volume": 1302.0,
+      "rsi14": 43.98,
+      "jaw_blue": 233855.81,
+      "teeth_red": 233206.22,
+      "lips_green": 232802.53,
       "allig_bearish": false,
       "allig_bullish": false,
       "upper_fractal_level": 233775.0,
@@ -24,7 +24,7 @@
     {
       "timeframe": "H1",
       "last_finished_candle_start_msk": "2026-11-20T16:00:00+03:00",
-      "age_minutes": 85,
+      "age_minutes": 95,
       "close": 232750.0,
       "volume": 38117.0,
       "rsi14": 14.53,
@@ -41,7 +41,7 @@
     {
       "timeframe": "H4",
       "last_finished_candle_start_msk": "2026-11-20T13:00:00+03:00",
-      "age_minutes": 265,
+      "age_minutes": 275,
       "close": 232750.0,
       "volume": 115926.0,
       "rsi14": 19.45,
@@ -64,9 +64,9 @@
     "portfolio_mutations_enabled": false,
     "processing_policy": "causal_shadow_replay_v2",
     "replay_note": "История обрабатывается по порядку закрытия. Поздно обнаруженные события виртуальны и не являются текущей командой на вход.",
-    "new_signals_allowed": false,
+    "new_signals_allowed": true,
     "no_chase_passed": true,
-    "entry_gate": "CALCULATION_FAILED",
+    "entry_gate": "WAITING_FOR_H1_AND_5M_SETUP",
     "rules": {
       "atr_period": 14,
       "min_rsi": 30,
@@ -79,17 +79,17 @@
       "armed_bars": 6
     },
     "health": {
-      "status": "STALE",
-      "last_5m_end_msk": "2026-11-20T17:05:00+03:00",
-      "candle_end_age_minutes": 20.42,
+      "status": "DELAYED",
+      "last_5m_end_msk": "2026-11-20T17:15:00+03:00",
+      "candle_end_age_minutes": 20.38,
       "stale_after_minutes": 31,
       "expected_iss_delay_minutes": 16,
-      "new_signals_allowed": false,
+      "new_signals_allowed": true,
       "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
     },
     "armed": null,
     "virtual_position": null,
-    "last_processed_bar": "2026-11-20T17:00:00+03:00",
+    "last_processed_bar": "2026-11-20T17:10:00+03:00",
     "transition_count": 5,
     "recent_transitions": [
       {
@@ -160,16 +160,5 @@
     ],
     "execution_note": "Только виртуальная модель по задержанным закрытым свечам. Фактических заявок и изменений портфеля нет; риск без комиссий и проскальзывания."
   },
-  "code_sha": "9406893a7ad09cb3839702a965ab55260a7429e4",
-  "runtime": {
-    "status": "STALE",
-    "attempted_msk": "2026-11-20T17:31:40.799901+03:00",
-    "last_successful_calculation_msk": "2026-11-20T17:25:25.327925+03:00",
-    "attempts": 3,
-    "failure": {
-      "phase": "fetch",
-      "error": "HTTPSConnectionPool(host='iss.moex.com', port=443): Max retries exceeded with url: /iss/engines/futures/markets/forts/boards/rfud/securities/MXZ6/candles.json?from=2026-11-15+17%3A30%3A33&till=2026-11-20+17%3A14%3A33&interval=1&start=0&iss.meta=off (Caused by ConnectTimeoutError(<HTTPSConnection(host='iss.moex.com', port=443) at 0x70fbad8f3740>, 'Connection to iss.moex.com timed out. (connect timeout=16)'))",
-      "attempted_msk": "2026-11-20T17:31:40.799079+03:00"
-    }
-  }
+  "code_sha": "cc43e7a32227bc8f16b1b551dd1e7718b36105b2"
 }
