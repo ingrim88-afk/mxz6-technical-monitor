@@ -1,0 +1,117 @@
+{
+  "date": "2026-11-20",
+  "fix_commit": "d0a3a43ab5a54b92b0ee4cbca6b307b9f17cde76",
+  "mode": "shadow",
+  "automatic_recovery_after_failure": {"run_id":44754845590,"url":"https://github.com/ingrim88-afk/mxz6-technical-monitor/actions/runs/44754845590","created":"2026-11-20T14:35:02Z","completed":"2026-11-20T14:35:49Z","generated_msk":"2026-11-20T17:35:22.603117+03:00","last_bar":"2026-11-20T17:10:00+03:00","source_health":{"status":"DELAYED","last_5m_end_msk":"2026-11-20T17:15:00+03:00","candle_end_age_minutes":20.38,"stale_after_minutes":31,"expected_iss_delay_minutes":16,"new_signals_allowed":true,"note":"ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."},"state":"WATCH","gate":"WAITING_FOR_H1_AND_5M_SETUP","transition_count":5,"code_sha":"cc43e7a32227bc8f16b1b551dd1e7718b36105b2","real_orders_enabled":false,"portfolio_mutations_enabled":false},
+  "automatic_runs": [
+    {
+      "run_id": 44751629601,
+      "url": "https://github.com/ingrim88-afk/mxz6-technical-monitor/actions/runs/44751629601",
+      "created": "2026-11-20T14:15:02Z",
+      "completed": "2026-11-20T14:15:59Z",
+      "head_sha": "d87b15af778456e043f80007aea5ee5085ee1423",
+      "generated_msk": "2026-11-20T17:15:27.066415+03:00",
+      "last_bar": "2026-11-20T16:50:00+03:00",
+      "source_health": {
+        "status": "DELAYED",
+        "last_5m_end_msk": "2026-11-20T16:55:00+03:00",
+        "candle_end_age_minutes": 20.45,
+        "stale_after_minutes": 31,
+        "expected_iss_delay_minutes": 16,
+        "new_signals_allowed": true,
+        "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
+      },
+      "state": "WATCH",
+      "gate": "WAITING_FOR_H1_AND_5M_SETUP",
+      "transition_count": 5,
+      "code_sha": "d87b15af778456e043f80007aea5ee5085ee1423",
+      "real_orders_enabled": false,
+      "portfolio_mutations_enabled": false,
+      "sample_within_run": true
+    },
+    {
+      "run_id": 44752427477,
+      "url": "https://github.com/ingrim88-afk/mxz6-technical-monitor/actions/runs/44752427477",
+      "created": "2026-11-20T14:20:02Z",
+      "completed": "2026-11-20T14:20:59Z",
+      "head_sha": "935a928c8f468786eeef33312814c987c5bf46c5",
+      "generated_msk": "2026-11-20T17:20:25.826560+03:00",
+      "last_bar": "2026-11-20T16:55:00+03:00",
+      "source_health": {
+        "status": "DELAYED",
+        "last_5m_end_msk": "2026-11-20T17:00:00+03:00",
+        "candle_end_age_minutes": 20.43,
+        "stale_after_minutes": 31,
+        "expected_iss_delay_minutes": 16,
+        "new_signals_allowed": true,
+        "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
+      },
+      "state": "WATCH",
+      "gate": "WAITING_FOR_H1_AND_5M_SETUP",
+      "transition_count": 5,
+      "code_sha": "935a928c8f468786eeef33312814c987c5bf46c5",
+      "real_orders_enabled": false,
+      "portfolio_mutations_enabled": false,
+      "sample_within_run": true
+    },
+    {
+      "run_id": 44753241037,
+      "url": "https://github.com/ingrim88-afk/mxz6-technical-monitor/actions/runs/44753241037",
+      "created": "2026-11-20T14:25:02Z",
+      "completed": "2026-11-20T14:25:55Z",
+      "head_sha": "9406893a7ad09cb3839702a965ab55260a7429e4",
+      "generated_msk": "2026-11-20T17:25:25.327925+03:00",
+      "last_bar": "2026-11-20T17:00:00+03:00",
+      "source_health": {
+        "status": "DELAYED",
+        "last_5m_end_msk": "2026-11-20T17:05:00+03:00",
+        "candle_end_age_minutes": 20.42,
+        "stale_after_minutes": 31,
+        "expected_iss_delay_minutes": 16,
+        "new_signals_allowed": true,
+        "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
+      },
+      "state": "WATCH",
+      "gate": "WAITING_FOR_H1_AND_5M_SETUP",
+      "transition_count": 5,
+      "code_sha": "9406893a7ad09cb3839702a965ab55260a7429e4",
+      "real_orders_enabled": false,
+      "portfolio_mutations_enabled": false,
+      "sample_within_run": true
+    }
+  ],
+  "intervals": [
+    {
+      "dispatch_seconds": 300,
+      "calculation_seconds": 298.76,
+      "candle_seconds": 300
+    },
+    {
+      "dispatch_seconds": 300,
+      "calculation_seconds": 299.501,
+      "candle_seconds": 300
+    }
+  ],
+  "tests_passed": 36,
+  "dashboard_javascript_scenarios_passed": 6,
+  "historical_causality": {
+    "processed_bars": 165,
+    "events": 21,
+    "batch_equals_incremental": true
+  },
+  "unresolved": [
+    "No independent external scheduler has been authorized.",
+    "The original invalid ISS responses were not archived; their exact malformed candle cannot be reconstructed.",
+    "Observation proves the recorded cadence, not an availability SLA."
+  ],
+  "follow_up_network_failure": {
+    "run_id": 44753658863,
+    "created_msk": "2026-11-20T17:27:39+03:00",
+    "phase": "fetch",
+    "cause": "ConnectTimeout to iss.moex.com; three isolated attempts exhausted",
+    "stale_published": true,
+    "last_successful_calculation_preserved": "2026-11-20T17:25:25.327925+03:00",
+    "pages_deployed": true,
+    "workflow_conclusion": "failure"
+  }
+}
