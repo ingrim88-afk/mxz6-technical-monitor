@@ -1,21 +1,21 @@
 {
   "instrument": "MXZ6",
   "source": "moex",
-  "generated_msk": "2026-11-20T21:10:29.676306+03:00",
+  "generated_msk": "2026-11-20T21:15:32.218881+03:00",
   "delay": "Бесплатный ISS: 15+ минут. Отсекаем последние 16 минут и незакрытые свечи.",
   "timeframes": [
     {
       "timeframe": "5m",
-      "last_finished_candle_start_msk": "2026-11-20T20:45:00+03:00",
-      "age_minutes": 25,
-      "close": 233950.0,
-      "volume": 326.0,
-      "rsi14": 57.78,
-      "jaw_blue": 233533.4,
-      "teeth_red": 233763.46,
-      "lips_green": 233876.42,
+      "last_finished_candle_start_msk": "2026-11-20T20:50:00+03:00",
+      "age_minutes": 26,
+      "close": 233850.0,
+      "volume": 843.0,
+      "rsi14": 54.12,
+      "jaw_blue": 233574.1,
+      "teeth_red": 233772.71,
+      "lips_green": 233896.13,
       "allig_bearish": false,
-      "allig_bullish": true,
+      "allig_bullish": false,
       "upper_fractal_level": 234200.0,
       "lower_fractal_level": 233725.0,
       "down_fractal_broken_this_candle": false,
@@ -24,7 +24,7 @@
     {
       "timeframe": "H1",
       "last_finished_candle_start_msk": "2026-11-20T19:00:00+03:00",
-      "age_minutes": 130,
+      "age_minutes": 136,
       "close": 233975.0,
       "volume": 12073.0,
       "rsi14": 29.05,
@@ -41,7 +41,7 @@
     {
       "timeframe": "H4",
       "last_finished_candle_start_msk": "2026-11-20T13:00:00+03:00",
-      "age_minutes": 490,
+      "age_minutes": 496,
       "close": 232750.0,
       "volume": 115926.0,
       "rsi14": 19.45,
@@ -59,14 +59,14 @@
   "stage_a": {
     "version": "stage-a-1",
     "mode": "shadow",
-    "state": "WATCH",
+    "state": "ARMED",
     "real_orders_enabled": false,
     "portfolio_mutations_enabled": false,
     "processing_policy": "causal_shadow_replay_v2",
     "replay_note": "История обрабатывается по порядку закрытия. Поздно обнаруженные события виртуальны и не являются текущей командой на вход.",
     "new_signals_allowed": true,
     "no_chase_passed": true,
-    "entry_gate": "WAITING_FOR_H1_AND_5M_SETUP",
+    "entry_gate": "READY",
     "rules": {
       "atr_period": 14,
       "min_rsi": 30,
@@ -80,17 +80,22 @@
     },
     "health": {
       "status": "DELAYED",
-      "last_5m_end_msk": "2026-11-20T20:50:00+03:00",
-      "candle_end_age_minutes": 20.49,
+      "last_5m_end_msk": "2026-11-20T20:55:00+03:00",
+      "candle_end_age_minutes": 20.54,
       "stale_after_minutes": 31,
       "expected_iss_delay_minutes": 16,
       "new_signals_allowed": true,
       "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
     },
-    "armed": null,
+    "armed": {
+      "bar": "2026-11-20T20:50:00+03:00",
+      "trigger": 233800.0,
+      "structural_high": 234100.0,
+      "waited": 0
+    },
     "virtual_position": null,
-    "last_processed_bar": "2026-11-20T20:45:00+03:00",
-    "transition_count": 9,
+    "last_processed_bar": "2026-11-20T20:50:00+03:00",
+    "transition_count": 10,
     "recent_transitions": [
       {
         "id": "cf701d9ddbecfc03c5f9862a",
@@ -238,9 +243,27 @@
           "below_lips": false,
           "lips_distance_atr": 1.2833
         }
+      },
+      {
+        "id": "610fff77d1fe2f45ace04f4c",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-20T20:50:00+03:00",
+        "observed_msk": "2026-11-20T21:15:32.218881+03:00",
+        "from": "WATCH",
+        "to": "ARMED",
+        "reason": "H1_CONTEXT_5M_WEAKNESS",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "trigger": 233800.0,
+          "structural_high": 234100.0,
+          "rsi14": 54.11761252827426,
+          "lips_distance_atr": 0.1933
+        }
       }
     ],
     "execution_note": "Только виртуальная модель по задержанным закрытым свечам. Фактических заявок и изменений портфеля нет; риск без комиссий и проскальзывания."
   },
-  "code_sha": "d6c2b73b5d2c6d1a9eca32642bdf83169d479f56"
+  "code_sha": "e5374d961a3a14735e64da4dcbe254fa92c7ab07"
 }
