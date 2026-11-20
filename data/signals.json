@@ -64,9 +64,9 @@
     "portfolio_mutations_enabled": false,
     "processing_policy": "causal_shadow_replay_v2",
     "replay_note": "История обрабатывается по порядку закрытия. Поздно обнаруженные события виртуальны и не являются текущей командой на вход.",
-    "new_signals_allowed": true,
+    "new_signals_allowed": false,
     "no_chase_passed": true,
-    "entry_gate": "READY",
+    "entry_gate": "CALCULATION_FAILED",
     "rules": {
       "atr_period": 14,
       "min_rsi": 30,
@@ -79,12 +79,12 @@
       "armed_bars": 6
     },
     "health": {
-      "status": "DELAYED",
+      "status": "STALE",
       "last_5m_end_msk": "2026-11-20T21:50:00+03:00",
       "candle_end_age_minutes": 20.48,
       "stale_after_minutes": 31,
       "expected_iss_delay_minutes": 16,
-      "new_signals_allowed": true,
+      "new_signals_allowed": false,
       "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
     },
     "armed": null,
@@ -291,5 +291,16 @@
     ],
     "execution_note": "Только виртуальная модель по задержанным закрытым свечам. Фактических заявок и изменений портфеля нет; риск без комиссий и проскальзывания."
   },
-  "code_sha": "92215714f13ab9b22593971bbe57f5b5bfaed4a7"
+  "code_sha": "92215714f13ab9b22593971bbe57f5b5bfaed4a7",
+  "runtime": {
+    "status": "STALE",
+    "attempted_msk": "2026-11-20T22:18:57.863844+03:00",
+    "last_successful_calculation_msk": "2026-11-20T22:10:28.648087+03:00",
+    "attempts": 3,
+    "failure": {
+      "phase": "fetch",
+      "error": "HTTPSConnectionPool(host='iss.moex.com', port=443): Max retries exceeded with url: /iss/engines/futures/markets/forts/boards/rfud/securities/MXZ6/candles.json?from=2026-11-15+22%3A17%3A50&till=2026-11-20+22%3A01%3A50&interval=1&start=0&iss.meta=off (Caused by ConnectTimeoutError(<HTTPSConnection(host='iss.moex.com', port=443) at 0x75fc52b37680>, 'Connection to iss.moex.com timed out. (connect timeout=16)'))",
+      "attempted_msk": "2026-11-20T22:18:57.863006+03:00"
+    }
+  }
 }
