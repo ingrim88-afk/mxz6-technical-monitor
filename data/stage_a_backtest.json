@@ -12,10 +12,10 @@
     "virtual_contracts": 1,
     "armed_bars": 6
   },
-  "start_msk": "2026-11-15T12:30:00+03:00",
-  "end_msk": "2026-11-20T12:10:00+03:00",
+  "start_msk": "2026-11-15T13:25:00+03:00",
+  "end_msk": "2026-11-20T13:05:00+03:00",
   "bars": 951,
-  "events": 100,
+  "events": 98,
   "confirmed": 14,
   "closed_virtual_trades": 14,
   "virtual_pnl_rub_before_costs": 6175,
