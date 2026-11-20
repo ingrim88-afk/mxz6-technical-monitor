@@ -1,0 +1,1230 @@
+{
+  "as_of_msk": "2026-11-20T16:46:20.890580+03:00",
+  "first_date": "2026-11-19",
+  "mode": "shadow",
+  "fixed_rules": {
+    "atr_period": 14,
+    "min_rsi": 30,
+    "max_lips_atr": 1.5,
+    "stop_atr_buffer": 0.25,
+    "target_r": 2,
+    "tick_size": 25,
+    "point_value_rub": 1,
+    "virtual_contracts": 1,
+    "armed_bars": 6
+  },
+  "strategy_thresholds_changed": false,
+  "walk_forward_counts": {
+    "ARMED": 14,
+    "WATCH": 13,
+    "CONFIRMED": 6,
+    "COVER": 2,
+    "TAKE PROFIT": 3
+  },
+  "walk_forward_armed_cases": [
+    {
+      "armed_bar": "2026-11-19T07:50:00+03:00",
+      "trigger": 244775.0,
+      "outcome": {
+        "id": "ceeec5d2eabedb5f54efa3d3",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T08:05:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "NO_CHASE_LIPS_DISTANCE",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-19T07:50:00+03:00",
+          "trigger": 244775.0,
+          "structural_high": 245725.0,
+          "waited": 3,
+          "close": 244550.0,
+          "rsi14": 36.13912089770377,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "lips_distance_atr": 2.2015
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-19T07:55:00+03:00",
+          "close": 245175.0,
+          "break_below_trigger": false,
+          "below_lips": true,
+          "rsi14": 46.1008,
+          "lips_distance_atr": 0.5321,
+          "no_chase_passed": true
+        },
+        {
+          "bar": "2026-11-19T08:00:00+03:00",
+          "close": 244900.0,
+          "break_below_trigger": false,
+          "below_lips": true,
+          "rsi14": 41.2988,
+          "lips_distance_atr": 1.4357,
+          "no_chase_passed": true
+        },
+        {
+          "bar": "2026-11-19T08:05:00+03:00",
+          "close": 244550.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 36.1391,
+          "lips_distance_atr": 2.2015,
+          "no_chase_passed": false
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-19T10:05:00+03:00",
+      "trigger": 244700.0,
+      "outcome": {
+        "id": "040ab5083e39b4dd4ccdd89a",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T10:10:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "NO_CHASE_LIPS_DISTANCE",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-19T10:05:00+03:00",
+          "trigger": 244700.0,
+          "structural_high": 245425.0,
+          "waited": 1,
+          "close": 244750.0,
+          "rsi14": 41.13194043174378,
+          "break_below_trigger": false,
+          "below_lips": true,
+          "lips_distance_atr": 1.5352
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-19T10:10:00+03:00",
+          "close": 244750.0,
+          "break_below_trigger": false,
+          "below_lips": true,
+          "rsi14": 41.1319,
+          "lips_distance_atr": 1.5352,
+          "no_chase_passed": false
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-19T10:50:00+03:00",
+      "trigger": 244750.0,
+      "outcome": {
+        "id": "541c5097c35f01627f56fb32",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T11:00:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "CONFIRMED",
+        "reason": "SEPARATE_CLOSED_5M_BREAK",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "entry": 244525,
+          "stop": 245175,
+          "risk_points": 650,
+          "risk_rub_1_contract": 650,
+          "target": 243225,
+          "contracts": 1,
+          "confirmed_bar": "2026-11-19T11:00:00+03:00",
+          "stop_buffer_points": 77.8097
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-19T10:55:00+03:00",
+          "close": 244775.0,
+          "break_below_trigger": false,
+          "below_lips": true,
+          "rsi14": 43.7732,
+          "lips_distance_atr": 0.3334,
+          "no_chase_passed": true
+        },
+        {
+          "bar": "2026-11-19T11:00:00+03:00",
+          "close": 244525.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 37.7051,
+          "lips_distance_atr": 1.1653,
+          "no_chase_passed": true
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-19T12:50:00+03:00",
+      "trigger": 245725.0,
+      "outcome": {
+        "id": "b044d33e12cb524be3710727",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T12:55:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "NO_CHASE_LIPS_DISTANCE",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-19T12:50:00+03:00",
+          "trigger": 245725.0,
+          "structural_high": 246325.0,
+          "waited": 1,
+          "close": 245075.0,
+          "rsi14": 40.86474538343185,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "lips_distance_atr": 2.4914
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-19T12:55:00+03:00",
+          "close": 245075.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 40.8647,
+          "lips_distance_atr": 2.4914,
+          "no_chase_passed": false
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-19T14:00:00+03:00",
+      "trigger": 243250.0,
+      "outcome": {
+        "id": "e6ad070601b859add294a5e1",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T14:05:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "CONFIRMED",
+        "reason": "SEPARATE_CLOSED_5M_BREAK",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "entry": 243175,
+          "stop": 244450,
+          "risk_points": 1275,
+          "risk_rub_1_contract": 1275,
+          "target": 240625,
+          "contracts": 1,
+          "confirmed_bar": "2026-11-19T14:05:00+03:00",
+          "stop_buffer_points": 150.1953
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-19T14:05:00+03:00",
+          "close": 243175.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 34.525,
+          "lips_distance_atr": 0.9889,
+          "no_chase_passed": true
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-19T16:15:00+03:00",
+      "trigger": 240325.0,
+      "outcome": {
+        "id": "2c2da25bf79d6718cb8b0805",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T16:20:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "NO_CHASE_RSI",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-19T16:15:00+03:00",
+          "trigger": 240325.0,
+          "structural_high": 240900.0,
+          "waited": 1,
+          "close": 239025.0,
+          "rsi14": 22.706838141658874,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "lips_distance_atr": 2.7052
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-19T16:20:00+03:00",
+          "close": 239025.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 22.7068,
+          "lips_distance_atr": 2.7052,
+          "no_chase_passed": false
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-19T18:00:00+03:00",
+      "trigger": 239550.0,
+      "outcome": {
+        "id": "3613feae2725702cac6966c6",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T18:05:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "CONFIRMED",
+        "reason": "SEPARATE_CLOSED_5M_BREAK",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "entry": 239375,
+          "stop": 240450,
+          "risk_points": 1075,
+          "risk_rub_1_contract": 1075,
+          "target": 237225,
+          "contracts": 1,
+          "confirmed_bar": "2026-11-19T18:05:00+03:00",
+          "stop_buffer_points": 119.2288
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-19T18:05:00+03:00",
+          "close": 239375.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 36.3477,
+          "lips_distance_atr": 1.0855,
+          "no_chase_passed": true
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-19T22:45:00+03:00",
+      "trigger": 240625.0,
+      "outcome": {
+        "id": "b8d9a8ff8333587b0697921c",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T22:50:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "CONFIRMED",
+        "reason": "SEPARATE_CLOSED_5M_BREAK",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "entry": 240500,
+          "stop": 240825,
+          "risk_points": 325,
+          "risk_rub_1_contract": 325,
+          "target": 239850,
+          "contracts": 1,
+          "confirmed_bar": "2026-11-19T22:50:00+03:00",
+          "stop_buffer_points": 49.6723
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-19T22:50:00+03:00",
+          "close": 240500.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 53.3915,
+          "lips_distance_atr": 0.9758,
+          "no_chase_passed": true
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-20T08:05:00+03:00",
+      "trigger": 239475.0,
+      "outcome": {
+        "id": "3c931968e219339e3463e2e7",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-20T08:10:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "NO_CHASE_LIPS_DISTANCE",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-20T08:05:00+03:00",
+          "trigger": 239475.0,
+          "structural_high": 239900.0,
+          "waited": 1,
+          "close": 239350.0,
+          "rsi14": 36.985226236021816,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "lips_distance_atr": 1.6136
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-20T08:10:00+03:00",
+          "close": 239350.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 36.9852,
+          "lips_distance_atr": 1.6136,
+          "no_chase_passed": false
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-20T08:35:00+03:00",
+      "trigger": 239250.0,
+      "outcome": {
+        "id": "e39b70c1641a499403022605",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-20T08:55:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "NO_CHASE_LIPS_DISTANCE",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-20T08:35:00+03:00",
+          "trigger": 239250.0,
+          "structural_high": 239850.0,
+          "waited": 4,
+          "close": 240050.0,
+          "rsi14": 56.39169227033149,
+          "break_below_trigger": false,
+          "below_lips": false,
+          "lips_distance_atr": 1.6146
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-20T08:40:00+03:00",
+          "close": 239275.0,
+          "break_below_trigger": false,
+          "below_lips": true,
+          "rsi14": 37.4478,
+          "lips_distance_atr": 1.4705,
+          "no_chase_passed": true
+        },
+        {
+          "bar": "2026-11-20T08:45:00+03:00",
+          "close": 239625.0,
+          "break_below_trigger": false,
+          "below_lips": true,
+          "rsi14": 47.1073,
+          "lips_distance_atr": 0.1309,
+          "no_chase_passed": true
+        },
+        {
+          "bar": "2026-11-20T08:50:00+03:00",
+          "close": 239750.0,
+          "break_below_trigger": false,
+          "below_lips": false,
+          "rsi14": 50.0727,
+          "lips_distance_atr": 0.4735,
+          "no_chase_passed": true
+        },
+        {
+          "bar": "2026-11-20T08:55:00+03:00",
+          "close": 240050.0,
+          "break_below_trigger": false,
+          "below_lips": false,
+          "rsi14": 56.3917,
+          "lips_distance_atr": 1.6146,
+          "no_chase_passed": false
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-20T09:00:00+03:00",
+      "trigger": 239375.0,
+      "outcome": {
+        "id": "1b39aa8be63343f025a06e0c",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-20T09:05:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "NO_CHASE_LIPS_DISTANCE",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-20T09:00:00+03:00",
+          "trigger": 239375.0,
+          "structural_high": 240125.0,
+          "waited": 1,
+          "close": 238250.0,
+          "rsi14": 30.35094623239906,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "lips_distance_atr": 3.4481
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-20T09:05:00+03:00",
+          "close": 238250.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 30.3509,
+          "lips_distance_atr": 3.4481,
+          "no_chase_passed": false
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-20T10:15:00+03:00",
+      "trigger": 237250.0,
+      "outcome": {
+        "id": "6f535791fb263874f1440790",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-20T10:20:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "CONFIRMED",
+        "reason": "SEPARATE_CLOSED_5M_BREAK",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "entry": 237200,
+          "stop": 238025,
+          "risk_points": 825,
+          "risk_rub_1_contract": 825,
+          "target": 235550,
+          "contracts": 1,
+          "confirmed_bar": "2026-11-20T10:20:00+03:00",
+          "stop_buffer_points": 123.8194
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-20T10:20:00+03:00",
+          "close": 237200.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 33.576,
+          "lips_distance_atr": 0.9868,
+          "no_chase_passed": true
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-20T14:25:00+03:00",
+      "trigger": 234400.0,
+      "outcome": {
+        "id": "8dbdbbca087e34c73550d1c9",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-20T14:30:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "NO_CHASE_LIPS_DISTANCE",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-20T14:25:00+03:00",
+          "trigger": 234400.0,
+          "structural_high": 234900.0,
+          "waited": 1,
+          "close": 233525.0,
+          "rsi14": 31.905216815649837,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "lips_distance_atr": 2.5648
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-20T14:30:00+03:00",
+          "close": 233525.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 31.9052,
+          "lips_distance_atr": 2.5648,
+          "no_chase_passed": false
+        }
+      ]
+    },
+    {
+      "armed_bar": "2026-11-20T15:20:00+03:00",
+      "trigger": 234400.0,
+      "outcome": {
+        "id": "96042cff00cba09cf13c2a71",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-20T15:25:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "CONFIRMED",
+        "reason": "SEPARATE_CLOSED_5M_BREAK",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "entry": 234175,
+          "stop": 235075,
+          "risk_points": 900,
+          "risk_rub_1_contract": 900,
+          "target": 232375,
+          "contracts": 1,
+          "confirmed_bar": "2026-11-20T15:25:00+03:00",
+          "stop_buffer_points": 93.7467
+        }
+      },
+      "subsequent_closed_bars": [
+        {
+          "bar": "2026-11-20T15:25:00+03:00",
+          "close": 234175.0,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "rsi14": 42.9198,
+          "lips_distance_atr": 1.0243,
+          "no_chase_passed": true
+        }
+      ]
+    }
+  ],
+  "no_chase_candidate_statistics": {
+    "h1_and_5m_candidates": 71,
+    "blocked_lips_distance": 38,
+    "passed_no_chase": 33,
+    "blocked_rsi": 18
+  },
+  "since_deployment_causal_events": [
+    {
+      "id": "cf701d9ddbecfc03c5f9862a",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T19:35:00+03:00",
+      "observed_msk": "2026-11-19T19:56:34.284256+03:00",
+      "from": "WATCH",
+      "to": "WATCH",
+      "reason": "BOOTSTRAP_NO_REPLAY",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {}
+    },
+    {
+      "id": "846ff5979768e2e423771030",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T20:00:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "trigger": 239600.0,
+        "structural_high": 240050.0,
+        "rsi14": 45.39946697240526,
+        "lips_distance_atr": 0.4516
+      }
+    },
+    {
+      "id": "982b0611f8325eff5aa961b3",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T20:35:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "ARMED",
+      "to": "WATCH",
+      "reason": "ARMED_EXPIRED_NO_CONFIRMATION",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "armed_bar": "2026-11-19T20:00:00+03:00",
+        "trigger": 239600.0,
+        "structural_high": 240050.0,
+        "waited": 7,
+        "close": 239425.0,
+        "rsi14": 39.18801943873963,
+        "break_below_trigger": true,
+        "below_lips": true,
+        "lips_distance_atr": 1.3122
+      }
+    },
+    {
+      "id": "ee8dd7f1ddb2ae55e52a511d",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T20:50:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "trigger": 239575.0,
+        "structural_high": 239675.0,
+        "rsi14": 43.87586112373274,
+        "lips_distance_atr": 0.8206
+      }
+    },
+    {
+      "id": "b9388629ac780351d584d43a",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T20:55:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "ARMED",
+      "to": "CONFIRMED",
+      "reason": "SEPARATE_CLOSED_5M_BREAK",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "entry": 239500,
+        "stop": 239750,
+        "risk_points": 250,
+        "risk_rub_1_contract": 250,
+        "target": 239000,
+        "contracts": 1,
+        "confirmed_bar": "2026-11-19T20:55:00+03:00",
+        "stop_buffer_points": 66.3479
+      }
+    },
+    {
+      "id": "934e73d340956c6022567ae8",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T21:15:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "CONFIRMED",
+      "to": "COVER",
+      "reason": "VIRTUAL_STOP",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "entry": 239500,
+        "stop": 239750,
+        "risk_points": 250,
+        "risk_rub_1_contract": 250,
+        "target": 239000,
+        "contracts": 1,
+        "confirmed_bar": "2026-11-19T20:55:00+03:00",
+        "stop_buffer_points": 66.3479,
+        "exit": 239750,
+        "pnl_rub": -250
+      }
+    },
+    {
+      "id": "ff70460196c1400c0bdfcd04",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T21:20:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "COVER",
+      "to": "WATCH",
+      "reason": "NEXT_BAR_RESET",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {}
+    },
+    {
+      "id": "d4514c45776c164dc34b9863",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T22:45:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "trigger": 240625.0,
+        "structural_high": 240775.0,
+        "rsi14": 58.864434866820424,
+        "lips_distance_atr": 0.3138
+      }
+    },
+    {
+      "id": "b8d9a8ff8333587b0697921c",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T22:50:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "ARMED",
+      "to": "CONFIRMED",
+      "reason": "SEPARATE_CLOSED_5M_BREAK",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "entry": 240500,
+        "stop": 240825,
+        "risk_points": 325,
+        "risk_rub_1_contract": 325,
+        "target": 239850,
+        "contracts": 1,
+        "confirmed_bar": "2026-11-19T22:50:00+03:00",
+        "stop_buffer_points": 49.6723
+      }
+    },
+    {
+      "id": "5519a49ab44f77d0547da354",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T07:00:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "CONFIRMED",
+      "to": "TAKE PROFIT",
+      "reason": "VIRTUAL_2R",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "entry": 240500,
+        "stop": 240825,
+        "risk_points": 325,
+        "risk_rub_1_contract": 325,
+        "target": 239850,
+        "contracts": 1,
+        "confirmed_bar": "2026-11-19T22:50:00+03:00",
+        "stop_buffer_points": 49.6723,
+        "exit": 239850,
+        "pnl_rub": 650
+      }
+    },
+    {
+      "id": "43be42b245bc465c558b7076",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T07:05:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "TAKE PROFIT",
+      "to": "WATCH",
+      "reason": "NEXT_BAR_RESET",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {}
+    },
+    {
+      "id": "a721878ab10c9962827d6214",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T09:00:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "trigger": 239375.0,
+        "structural_high": 240125.0,
+        "rsi14": 43.53509829554242,
+        "lips_distance_atr": 0.4825
+      }
+    },
+    {
+      "id": "1b39aa8be63343f025a06e0c",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T09:05:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "ARMED",
+      "to": "WATCH",
+      "reason": "NO_CHASE_LIPS_DISTANCE",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "armed_bar": "2026-11-20T09:00:00+03:00",
+        "trigger": 239375.0,
+        "structural_high": 240125.0,
+        "waited": 1,
+        "close": 238250.0,
+        "rsi14": 30.35094623239906,
+        "break_below_trigger": true,
+        "below_lips": true,
+        "lips_distance_atr": 3.4481
+      }
+    },
+    {
+      "id": "1c0de3b0bdf3d5cba20688e3",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T10:15:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "trigger": 237250.0,
+        "structural_high": 237900.0,
+        "rsi14": 34.80716291108961,
+        "lips_distance_atr": 0.7826
+      }
+    },
+    {
+      "id": "6f535791fb263874f1440790",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T10:20:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "ARMED",
+      "to": "CONFIRMED",
+      "reason": "SEPARATE_CLOSED_5M_BREAK",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "entry": 237200,
+        "stop": 238025,
+        "risk_points": 825,
+        "risk_rub_1_contract": 825,
+        "target": 235550,
+        "contracts": 1,
+        "confirmed_bar": "2026-11-20T10:20:00+03:00",
+        "stop_buffer_points": 123.8194
+      }
+    },
+    {
+      "id": "21020198eadd4318d6c24ae4",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T12:00:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "CONFIRMED",
+      "to": "TAKE PROFIT",
+      "reason": "VIRTUAL_2R",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "entry": 237200,
+        "stop": 238025,
+        "risk_points": 825,
+        "risk_rub_1_contract": 825,
+        "target": 235550,
+        "contracts": 1,
+        "confirmed_bar": "2026-11-20T10:20:00+03:00",
+        "stop_buffer_points": 123.8194,
+        "exit": 235550,
+        "pnl_rub": 1650
+      }
+    },
+    {
+      "id": "02628129fc713cae239e4726",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T12:05:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "TAKE PROFIT",
+      "to": "WATCH",
+      "reason": "NEXT_BAR_RESET",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {}
+    },
+    {
+      "id": "47abd1daba941b51e057e658",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T14:25:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "trigger": 234400.0,
+        "structural_high": 234900.0,
+        "rsi14": 43.53865224673993,
+        "lips_distance_atr": 0.2599
+      }
+    },
+    {
+      "id": "8dbdbbca087e34c73550d1c9",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T14:30:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "ARMED",
+      "to": "WATCH",
+      "reason": "NO_CHASE_LIPS_DISTANCE",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "armed_bar": "2026-11-20T14:25:00+03:00",
+        "trigger": 234400.0,
+        "structural_high": 234900.0,
+        "waited": 1,
+        "close": 233525.0,
+        "rsi14": 31.905216815649837,
+        "break_below_trigger": true,
+        "below_lips": true,
+        "lips_distance_atr": 2.5648
+      }
+    },
+    {
+      "id": "7112dc66476e3ce74232aebb",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T15:20:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "trigger": 234400.0,
+        "structural_high": 234975.0,
+        "rsi14": 46.636797365133,
+        "lips_distance_atr": 0.2327
+      }
+    },
+    {
+      "id": "96042cff00cba09cf13c2a71",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-20T15:25:00+03:00",
+      "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+      "from": "ARMED",
+      "to": "CONFIRMED",
+      "reason": "SEPARATE_CLOSED_5M_BREAK",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {
+        "entry": 234175,
+        "stop": 235075,
+        "risk_points": 900,
+        "risk_rub_1_contract": 900,
+        "target": 232375,
+        "contracts": 1,
+        "confirmed_bar": "2026-11-20T15:25:00+03:00",
+        "stop_buffer_points": 93.7467
+      }
+    }
+  ],
+  "original_live_armed_cases": [
+    {
+      "armed_bar": "2026-11-19T20:00:00+03:00",
+      "recorded_outcome": {
+        "id": "32e6b36701de32aa8d9437f5",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T20:30:00+03:00",
+        "observed_msk": "2026-11-19T21:29:23.423222+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "STALE_OR_INVALIDATED",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {}
+      },
+      "recorded_candle_age_at_observation_minutes": 54.39,
+      "causal_outcome": {
+        "id": "982b0611f8325eff5aa961b3",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T20:35:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "ARMED_EXPIRED_NO_CONFIRMATION",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-19T20:00:00+03:00",
+          "trigger": 239600.0,
+          "structural_high": 240050.0,
+          "waited": 7,
+          "close": 239425.0,
+          "rsi14": 39.18801943873963,
+          "break_below_trigger": true,
+          "below_lips": true,
+          "lips_distance_atr": 1.3122
+        }
+      }
+    },
+    {
+      "armed_bar": "2026-11-19T20:55:00+03:00",
+      "recorded_outcome": {
+        "id": "90a883b64814464bfc2205b5",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T21:10:00+03:00",
+        "observed_msk": "2026-11-19T21:46:17.467897+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "STALE_OR_INVALIDATED",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {}
+      },
+      "recorded_candle_age_at_observation_minutes": 31.291,
+      "causal_outcome": {
+        "id": "a07f6ce98c979cbb63c22661",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-19T21:15:00+03:00",
+        "observed_msk": "2026-11-20T16:46:20.890580+03:00",
+        "from": "ARMED",
+        "to": "WATCH",
+        "reason": "STRUCTURE_HIGH_BROKEN",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "armed_bar": "2026-11-19T20:55:00+03:00",
+          "trigger": 239450.0,
+          "structural_high": 239675.0,
+          "waited": 4,
+          "close": 239800.0,
+          "rsi14": 51.94720094733669,
+          "break_below_trigger": false,
+          "below_lips": false,
+          "lips_distance_atr": 0.6056
+        }
+      }
+    }
+  ],
+  "dataset_snapshot": {
+    "5m": {
+      "sha256": "e1c3f3a59510bbdad8ba6978d5aa78f452328070f6060c74eecfbf2b36cbd1c6",
+      "gzip_base64_csv": "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"
+    },
+    "H1": {
+      "sha256": "e5f43f83b8ec90b7206682c9ecbda513a4e4937e746b7d9779a3e594a0c97611",
+      "gzip_base64_csv": "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"
+    },
+    "H4": {
+      "sha256": "84e3cfc985a42b8f69b83caf8a9f5d1717375d0ea3ab066f74fccb1f038a10ea",
+      "gzip_base64_csv": "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"
+    }
+  },
+  "original_live_journal": [
+    {
+      "id": "cf701d9ddbecfc03c5f9862a",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T19:35:00+03:00",
+      "observed_msk": "2026-11-19T19:56:34.284256+03:00",
+      "from": "WATCH",
+      "to": "WATCH",
+      "reason": "BOOTSTRAP_NO_REPLAY",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {},
+      "state_after": {
+        "version": "stage-a-1",
+        "state": "WATCH",
+        "last_bar": "2026-11-19T19:35:00+03:00",
+        "armed": null,
+        "virtual_position": null
+      }
+    },
+    {
+      "id": "846ff5979768e2e423771030",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T20:00:00+03:00",
+      "observed_msk": "2026-11-19T20:35:22.867094+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {},
+      "state_after": {
+        "version": "stage-a-1",
+        "state": "ARMED",
+        "last_bar": "2026-11-19T20:00:00+03:00",
+        "armed": {
+          "bar": "2026-11-19T20:00:00+03:00",
+          "trigger": 239600.0,
+          "structural_high": 240050.0,
+          "waited": 0
+        },
+        "virtual_position": null
+      }
+    },
+    {
+      "id": "32e6b36701de32aa8d9437f5",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T20:30:00+03:00",
+      "observed_msk": "2026-11-19T21:29:23.423222+03:00",
+      "from": "ARMED",
+      "to": "WATCH",
+      "reason": "STALE_OR_INVALIDATED",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {},
+      "state_after": {
+        "version": "stage-a-1",
+        "state": "WATCH",
+        "last_bar": "2026-11-19T20:30:00+03:00",
+        "armed": null,
+        "virtual_position": null
+      }
+    },
+    {
+      "id": "ebb36ecabef081cd2b47acf0",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T20:55:00+03:00",
+      "observed_msk": "2026-11-19T21:29:23.423222+03:00",
+      "from": "WATCH",
+      "to": "ARMED",
+      "reason": "H1_CONTEXT_5M_WEAKNESS",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {},
+      "state_after": {
+        "version": "stage-a-1",
+        "state": "ARMED",
+        "last_bar": "2026-11-19T20:55:00+03:00",
+        "armed": {
+          "bar": "2026-11-19T20:55:00+03:00",
+          "trigger": 239450.0,
+          "structural_high": 239675.0,
+          "waited": 0
+        },
+        "virtual_position": null
+      }
+    },
+    {
+      "id": "90a883b64814464bfc2205b5",
+      "version": "stage-a-1",
+      "instrument": "MXZ6",
+      "bar_begin_msk": "2026-11-19T21:10:00+03:00",
+      "observed_msk": "2026-11-19T21:46:17.467897+03:00",
+      "from": "ARMED",
+      "to": "WATCH",
+      "reason": "STALE_OR_INVALIDATED",
+      "mode": "shadow",
+      "real_order": false,
+      "details": {},
+      "state_after": {
+        "version": "stage-a-1",
+        "state": "WATCH",
+        "last_bar": "2026-11-19T21:10:00+03:00",
+        "armed": null,
+        "virtual_position": null
+      }
+    }
+  ],
+  "limitations": "Reconstruction from the captured completed candles, not a live execution result. Original failing ISS responses were not archived. Intrabar order, fees and slippage are not known. The live journal and checkpoints are never rewritten by this audit."
+}
