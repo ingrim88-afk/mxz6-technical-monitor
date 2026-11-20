@@ -12,8 +12,8 @@
     "virtual_contracts": 1,
     "armed_bars": 6
   },
-  "start_msk": "2026-11-15T14:30:00+03:00",
-  "end_msk": "2026-11-20T14:10:00+03:00",
+  "start_msk": "2026-11-15T15:20:00+03:00",
+  "end_msk": "2026-11-20T15:00:00+03:00",
   "bars": 952,
   "events": 98,
   "confirmed": 13,
