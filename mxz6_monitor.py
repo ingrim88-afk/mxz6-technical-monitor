@@ -53,8 +53,10 @@ def assert_ohlcv(df: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna(subset=["open", "high", "low", "close"]).sort_index()
     df = df.loc[~df.index.duplicated(keep="last")]
     df["volume"] = df["volume"].fillna(0)
-    if len(df) and ((df.high < df.low) | (df.high < df[["open", "close"]].max(axis=1)) | (df.low > df[["open", "close"]].min(axis=1))).any():
-        raise ValueError("Некорректные OHLC: high/low не покрывают open/close")
+    invalid = (df.high < df.low) | (df.high < df[["open", "close"]].max(axis=1)) | (df.low > df[["open", "close"]].min(axis=1))
+    if invalid.any():
+        bad = df.loc[invalid, ["open", "high", "low", "close"]].head(5)
+        raise ValueError(f"Некорректные OHLC: high/low не покрывают open/close: {bad.to_json(orient='index', date_format='iso')}")
     return df[REQUIRED_COLS]
 
 
@@ -112,7 +114,12 @@ def load_moex_interval(ticker: str, start: datetime, end: datetime, interval: in
         raise RuntimeError("MOEX: превышен лимит страниц, уменьшите окно истории")
     if not allrows:
         raise RuntimeError(f"MOEX не вернул свечи для {ticker}, interval={interval}")
-    return assert_ohlcv(pd.DataFrame(allrows))
+    raw = pd.DataFrame(allrows)
+    # ISS can return the current mutable candle even with till specified.
+    # Exclude it BEFORE validation; invalid completed candles still fail closed.
+    begin = pd.to_datetime(raw["begin"], errors="raise").dt.tz_localize(MSK)
+    completed = begin + pd.Timedelta(minutes=interval) <= end.astimezone(MSK)
+    return assert_ohlcv(raw.loc[completed])
 
 
 def ohlcv_resample(df: pd.DataFrame, rule: str, *, offset: str = "0h") -> pd.DataFrame:
@@ -130,8 +137,8 @@ def remove_unfinished(df: pd.DataFrame, width: timedelta, cutoff: datetime) -> p
 def load_moex(ticker: str, now: datetime, delay_minutes: int = 16, h4_anchor: int = 1) -> dict[str, pd.DataFrame]:
     cutoff = now.astimezone(MSK) - timedelta(minutes=delay_minutes)
     with requests.Session() as session:
-        minute = load_moex_interval(ticker, now - timedelta(days=5), now, 1, session)
-        hour = load_moex_interval(ticker, now - timedelta(days=55), now, 60, session)
+        minute = load_moex_interval(ticker, now - timedelta(days=5), cutoff, 1, session)
+        hour = load_moex_interval(ticker, now - timedelta(days=55), cutoff, 60, session)
     bars5 = remove_unfinished(ohlcv_resample(minute, "5min"), timedelta(minutes=5), cutoff)
     bars1 = remove_unfinished(hour, timedelta(hours=1), cutoff)
     bars4 = remove_unfinished(ohlcv_resample(bars1, "4h", offset=f"{h4_anchor}h"), timedelta(hours=4), cutoff)
@@ -332,9 +339,11 @@ def main(argv=None) -> int:
     p.add_argument("--out",type=Path,default=Path("report"))
     p.add_argument("--h4-anchor",choices=[0,1,2,3],type=int,default=1,help="MOEX H4: Moscow hours modulo 4, default 1 (09/13/17/21)")
     p.add_argument("--state-dir",type=Path,default=Path("data"),help="Persisted Stage A shadow checkpoint and journal")
+    p.add_argument("--no-backtest", action="store_true", help="Operational update; run historical audits separately")
     args=p.parse_args(argv)
     args.out.mkdir(parents=True,exist_ok=True)
     now=datetime.now(MSK)
+    phase = "fetch"
     try:
         if args.source=="moex":
             dataset=load_moex(args.ticker,now,h4_anchor=args.h4_anchor)
@@ -345,6 +354,7 @@ def main(argv=None) -> int:
         else:
             dataset=load_csv_dir(args.csv_dir)
             delay="CSV из локального файла; актуальность зависит от времени экспорта."
+        phase = "indicators"
         snapshots=[]
         analyzed={}
         for tf in INTERVALS:
@@ -355,14 +365,17 @@ def main(argv=None) -> int:
             snapshots.append(snapshot(tf,df,now))
             plot_chart(df,tf,args.out/f"{args.ticker}_{tf}.png",args.ticker,args.source)
         obj={"instrument":args.ticker,"source":args.source,"generated_msk":now.isoformat(),"delay":delay,"timeframes":snapshots}
+        phase = "stage_a"
         events=load_journal(args.state_dir/"transitions.jsonl")
         state=load_state(args.state_dir/"stage_a_state.json",events)
         stage=run_engine(analyzed,now,state,events,source=args.source)
         obj["stage_a"]=stage
         obj["code_sha"]=os.getenv("MXZ6_CODE_SHA",os.getenv("GITHUB_SHA","local"))
         validate_shadow(obj)
+        phase = "write"
         persist(args.out,state,events)
-        (args.out/"stage_a_backtest.json").write_text(json.dumps(backtest(analyzed,now),ensure_ascii=False,indent=2,allow_nan=False),encoding="utf-8")
+        if not args.no_backtest:
+            (args.out/"stage_a_backtest.json").write_text(json.dumps(backtest(analyzed,now),ensure_ascii=False,indent=2,allow_nan=False),encoding="utf-8")
         (args.out/"signals.json").write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding="utf-8")
         text=report_md(args.ticker,args.source,delay,snapshots,now)
         text += "\n## Этап A · SHADOW\n\n" + f"Состояние: **{stage['state']}** · Источник: {stage['health']['status']} · Переходов: {len(events)}\n\n" + stage["execution_note"] + "\n"
@@ -371,6 +384,7 @@ def main(argv=None) -> int:
         print(f"Готово. Файлы в {args.out.resolve()}")
         return 0
     except Exception as e:
+        (args.out/"failure.json").write_text(json.dumps({"phase":phase,"error":str(e),"attempted_msk":datetime.now(MSK).isoformat()},ensure_ascii=False),encoding="utf-8")
         print(f"НЕ УДАЛОСЬ ЗАГРУЗИТЬ/ОБРАБОТАТЬ ДАННЫЕ: {e}",file=sys.stderr)
         return 1
 
