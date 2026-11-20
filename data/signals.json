@@ -1,22 +1,22 @@
 {
   "instrument": "MXZ6",
   "source": "moex",
-  "generated_msk": "2026-11-20T18:25:32.288680+03:00",
+  "generated_msk": "2026-11-20T18:30:27.596275+03:00",
   "delay": "Бесплатный ISS: 15+ минут. Отсекаем последние 16 минут и незакрытые свечи.",
   "timeframes": [
     {
       "timeframe": "5m",
-      "last_finished_candle_start_msk": "2026-11-20T18:00:00+03:00",
-      "age_minutes": 26,
-      "close": 233250.0,
-      "volume": 1871.0,
-      "rsi14": 46.93,
-      "jaw_blue": 233346.46,
-      "teeth_red": 233192.62,
-      "lips_green": 233307.87,
+      "last_finished_candle_start_msk": "2026-11-20T18:05:00+03:00",
+      "age_minutes": 25,
+      "close": 232925.0,
+      "volume": 1586.0,
+      "rsi14": 41.78,
+      "jaw_blue": 233339.04,
+      "teeth_red": 233232.6,
+      "lips_green": 233306.29,
       "allig_bearish": false,
       "allig_bullish": false,
-      "upper_fractal_level": 233675.0,
+      "upper_fractal_level": 233725.0,
       "lower_fractal_level": 232125.0,
       "down_fractal_broken_this_candle": false,
       "up_fractal_broken_this_candle": false
@@ -24,7 +24,7 @@
     {
       "timeframe": "H1",
       "last_finished_candle_start_msk": "2026-11-20T17:00:00+03:00",
-      "age_minutes": 86,
+      "age_minutes": 90,
       "close": 233700.0,
       "volume": 21733.0,
       "rsi14": 22.98,
@@ -41,7 +41,7 @@
     {
       "timeframe": "H4",
       "last_finished_candle_start_msk": "2026-11-20T13:00:00+03:00",
-      "age_minutes": 326,
+      "age_minutes": 330,
       "close": 232750.0,
       "volume": 115926.0,
       "rsi14": 19.45,
@@ -59,14 +59,14 @@
   "stage_a": {
     "version": "stage-a-1",
     "mode": "shadow",
-    "state": "WATCH",
+    "state": "ARMED",
     "real_orders_enabled": false,
     "portfolio_mutations_enabled": false,
     "processing_policy": "causal_shadow_replay_v2",
     "replay_note": "История обрабатывается по порядку закрытия. Поздно обнаруженные события виртуальны и не являются текущей командой на вход.",
     "new_signals_allowed": true,
     "no_chase_passed": true,
-    "entry_gate": "WAITING_FOR_H1_AND_5M_SETUP",
+    "entry_gate": "READY",
     "rules": {
       "atr_period": 14,
       "min_rsi": 30,
@@ -80,17 +80,22 @@
     },
     "health": {
       "status": "DELAYED",
-      "last_5m_end_msk": "2026-11-20T18:05:00+03:00",
-      "candle_end_age_minutes": 20.54,
+      "last_5m_end_msk": "2026-11-20T18:10:00+03:00",
+      "candle_end_age_minutes": 20.46,
       "stale_after_minutes": 31,
       "expected_iss_delay_minutes": 16,
       "new_signals_allowed": true,
       "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
     },
-    "armed": null,
+    "armed": {
+      "bar": "2026-11-20T18:05:00+03:00",
+      "trigger": 232875.0,
+      "structural_high": 233725.0,
+      "waited": 0
+    },
     "virtual_position": null,
-    "last_processed_bar": "2026-11-20T18:00:00+03:00",
-    "transition_count": 5,
+    "last_processed_bar": "2026-11-20T18:05:00+03:00",
+    "transition_count": 6,
     "recent_transitions": [
       {
         "id": "cf701d9ddbecfc03c5f9862a",
@@ -156,9 +161,27 @@
         "mode": "shadow",
         "real_order": false,
         "details": {}
+      },
+      {
+        "id": "225c37efa8bb71f0be73d860",
+        "version": "stage-a-1",
+        "instrument": "MXZ6",
+        "bar_begin_msk": "2026-11-20T18:05:00+03:00",
+        "observed_msk": "2026-11-20T18:30:27.596275+03:00",
+        "from": "WATCH",
+        "to": "ARMED",
+        "reason": "H1_CONTEXT_5M_WEAKNESS",
+        "mode": "shadow",
+        "real_order": false,
+        "details": {
+          "trigger": 232875.0,
+          "structural_high": 233725.0,
+          "rsi14": 41.77578371486823,
+          "lips_distance_atr": 0.8753
+        }
       }
     ],
     "execution_note": "Только виртуальная модель по задержанным закрытым свечам. Фактических заявок и изменений портфеля нет; риск без комиссий и проскальзывания."
   },
-  "code_sha": "96669d08c782d37ddb5f72063207ff1fc01e3acc"
+  "code_sha": "489f08eb2ca11a260efc1226e0eb4f9827e6103a"
 }
