@@ -51,6 +51,8 @@ def page(signals: dict) -> str:
     if position:
         risk = '<table>' + ''.join('<tr><td>'+label+'</td><td>'+esc(num(position[key]))+'</td></tr>' for label,key in [('Виртуальный вход','entry'),('Стоп','stop'),('Риск ₽ · 1 MIX','risk_rub_1_contract'),('Цель 2R','target')]) + '</table>'
     event_rows = ''.join('<tr><td>'+esc(e['bar_begin_msk'].replace('T',' ')[:16])+'</td><td>'+esc(e['to'])+'</td><td>'+esc(e['reason'])+'</td></tr>' for e in reversed(stage.get('recent_transitions', [])))
+    legacy_note = ' Старые записи STALE_OR_INVALIDATED сохранены как история; их точные причины разобраны в аудите.' if any(e.get('reason') == 'STALE_OR_INVALIDATED' for e in stage.get('recent_transitions', [])) else ''
+    audit_note = '<p class="meta">'+esc(stage.get('replay_note', ''))+' <a href="stage_a_audit.json">Исторический аудит 19–20.11</a>.'+esc(legacy_note)+'</p>'
     stage_card = f'<article class="card"><h2>Этап A · SHADOW · {esc(stage.get("state", "UNAVAILABLE"))}</h2><p>WATCH → ARMED → CONFIRMED · COVER / TAKE PROFIT</p><p class="warning">{esc(stage.get("execution_note", "Этап A недоступен"))}</p><p>Фильтр входа: {esc(stage.get("entry_gate", "—"))} · Переходов: {esc(stage.get("transition_count", 0))}</p>{risk}<div style="overflow-x:auto"><table>{event_rows}</table></div><p><a href="transitions.jsonl">Журнал переходов</a> · <a href="stage_a_backtest.json">Walk-forward: фиксированные правила</a></p></article>'
     return f'''<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -131,6 +133,7 @@ def page(signals: dict) -> str:
     <div class="banner"><b>Данные задержанные, не для мгновенного входа.</b><p>{delay}</p>
     <p>Индикаторы не являются автоматической командой открыть хедж. Сверяйте брокерскую цену, H1/H4, объёмы, волны, геополитику и риск.</p></div>
     {stage_card}
+    {audit_note}
     <p class="meta">Версия кода: {esc(signals.get('code_sha','unknown'))}</p>
     {''.join(cards)}
     <p class="footer">Подробные данные: <a href="signals.json">signals.json</a> · <a href="report.md">report.md</a>.
