@@ -64,9 +64,9 @@
     "portfolio_mutations_enabled": false,
     "processing_policy": "causal_shadow_replay_v2",
     "replay_note": "История обрабатывается по порядку закрытия. Поздно обнаруженные события виртуальны и не являются текущей командой на вход.",
-    "new_signals_allowed": true,
+    "new_signals_allowed": false,
     "no_chase_passed": true,
-    "entry_gate": "WAITING_FOR_H1_AND_5M_SETUP",
+    "entry_gate": "CALCULATION_FAILED",
     "rules": {
       "atr_period": 14,
       "min_rsi": 30,
@@ -79,12 +79,12 @@
       "armed_bars": 6
     },
     "health": {
-      "status": "DELAYED",
+      "status": "STALE",
       "last_5m_end_msk": "2026-11-23T21:10:00+03:00",
       "candle_end_age_minutes": 20.44,
       "stale_after_minutes": 31,
       "expected_iss_delay_minutes": 16,
-      "new_signals_allowed": true,
+      "new_signals_allowed": false,
       "note": "ISS задержан. Возраст свечи и возраст расчёта — разные величины; при STALE новые сигналы блокируются."
     },
     "armed": null,
@@ -331,5 +331,16 @@
     ],
     "execution_note": "Только виртуальная модель по задержанным закрытым свечам. Фактических заявок и изменений портфеля нет; риск без комиссий и проскальзывания."
   },
-  "code_sha": "377c9a68fc5decfe869db6af75724379a7092e25"
+  "code_sha": "377c9a68fc5decfe869db6af75724379a7092e25",
+  "runtime": {
+    "status": "STALE",
+    "attempted_msk": "2026-11-23T21:35:46.334776+03:00",
+    "last_successful_calculation_msk": "2026-11-23T21:30:26.241980+03:00",
+    "attempts": 3,
+    "failure": {
+      "phase": "fetch",
+      "error": "HTTPSConnectionPool(host='iss.moex.com', port=443): Max retries exceeded with url: /iss/engines/futures/markets/forts/boards/rfud/securities/MXZ6/candles.json?from=2026-11-18+21%3A35%3A41&till=2026-11-23+21%3A19%3A41&interval=1&start=0&iss.meta=off (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1011)')))",
+      "attempted_msk": "2026-11-23T21:35:46.333323+03:00"
+    }
+  }
 }
