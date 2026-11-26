@@ -1,11 +1,11 @@
 {
   "status": "STALE",
-  "attempted_msk": "2026-11-26T20:55:42.754879+03:00",
+  "attempted_msk": "2026-11-26T21:00:44.038463+03:00",
   "last_successful_calculation_msk": "2026-11-23T21:30:26.241980+03:00",
   "attempts": 3,
   "failure": {
     "phase": "fetch",
-    "error": "HTTPSConnectionPool(host='iss.moex.com', port=443): Max retries exceeded with url: /iss/engines/futures/markets/forts/boards/rfud/securities/MXZ6/candles.json?from=2026-11-21+20%3A55%3A36&till=2026-11-26+20%3A39%3A36&interval=1&start=0&iss.meta=off (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1011)')))",
-    "attempted_msk": "2026-11-26T20:55:42.753942+03:00"
+    "error": "HTTPSConnectionPool(host='iss.moex.com', port=443): Max retries exceeded with url: /iss/engines/futures/markets/forts/boards/rfud/securities/MXZ6/candles.json?from=2026-11-21+21%3A00%3A38&till=2026-11-26+20%3A44%3A38&interval=1&start=0&iss.meta=off (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1011)')))",
+    "attempted_msk": "2026-11-26T21:00:44.037577+03:00"
   }
 }
